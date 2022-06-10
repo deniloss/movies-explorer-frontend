@@ -1,0 +1,121 @@
+.aboutProject {
+    background-color: white;
+}
+
+.aboutProject__container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 89%;
+}
+
+.aboutProject__title{
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 26px;
+
+    color: black;
+    padding: 110px 0 23px 0;
+    margin: 0;
+
+    border-bottom: 1px solid black;
+}
+
+.aboutProject__list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 70px;
+}
+
+.aboutProject__item {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.aboutProject__articleTitle {
+    font-family: Inter,sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: black;
+
+    margin: 0 0 26px 0;
+}
+
+.aboutProject__articleText {
+    margin: 0;
+    max-width: 450px;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: black;
+}
+
+.aboutProject__scale {
+    margin: 110px 0 105px 0;
+
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: repeat(2, 36px);
+
+    text-align: center;
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 2.5em;
+}
+
+.aboutProject__bigPart {
+    background-color: #F2F2F2;
+    color: black;
+}
+
+.aboutProject__smallPart {
+    background-color: #2BE080;
+    color: black;
+}
+
+.aboutProject__textPart {
+    background-color: transparent;
+    color: #A0A0A0;
+}
+
+
+@media screen and (max-width: 768px) {
+    .aboutProject__articleText {
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .aboutProject__list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .aboutProject__item {
+        width: 100%;
+        margin-bottom: 56px;
+    }
+
+    .aboutProject__articleTitle {
+        margin-bottom: 16px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .aboutProject__articleText {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .aboutProject__scale {
+        margin-top: 0;
+    }
+}
