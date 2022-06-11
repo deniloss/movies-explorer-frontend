@@ -11,7 +11,7 @@ const Footer = () => {
         <div className={cl.footer__wrapper}>
           <p className={cl.footer__copyright}>© 2022</p>
           <div>
-            <a className={cl.footer__item} href="#">Яндекс Практикум</a>
+            <a className={cl.footer__item} href="https://practicum.yandex.ru">Яндекс Практикум</a>
             <a className={cl.footer__item} href="#">Github</a>
             <a className={cl.footer__item} href="#">Facebook</a>
           </div>

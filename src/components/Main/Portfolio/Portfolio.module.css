@@ -36,22 +36,22 @@
 
     align-items: center;
 
-    margin: 0 0 20px 0;
-}
-.portfolio__item:last-child {
-    margin: 0;
-    border: none;
-}
-
-.portfolio__name {
     font-family: Inter, sans-serif;
     font-weight: 400;
     font-size: 30px;
     line-height: 50px;
 
-    margin: 0 0 19px 0;
+    margin: 0;
+    padding-bottom: 19px;
 
     color: black;
+}
+.portfolio__item:last-child {
+    margin: 0;
+    border: none;
+}
+.portfolio__item:hover {
+    color: #A0A0A0;
 }
 
 .portfolio__link {

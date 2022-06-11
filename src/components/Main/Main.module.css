@@ -29,11 +29,11 @@
     font-family: Inter, sans-serif;
     font-weight: 500;
     text-decoration: none;
+    margin-right: 2px;
+
+    transition: background-color .2s;
 }
-
-
-
-.header__link:active {
+.header__link:hover {
     background-color: #2BE080;
     color: black;
 }

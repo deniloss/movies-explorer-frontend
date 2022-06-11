@@ -14,17 +14,17 @@ const Portfolio = () => {
 
 
           <Link to='https://github.com/deniloss/how-to-learn' className={cl.portfolio__item}>
-            <p className={cl.portfolio__name}>Статичный сайт</p>
+            Статичный сайт
             <img className={cl.portfolio__link} src={arrow} alt="ссылка на проект"/>
           </Link>
 
           <Link to='https://github.com/deniloss/russian-travel' className={cl.portfolio__item}>
-            <p className={cl.portfolio__name}>Адаптивный сайт</p>
+            Адаптивный сайт
             <img className={cl.portfolio__link} src={arrow} alt="ссылка на проект"/>
           </Link>
 
           <Link to='https://github.com/deniloss/react-mesto-api-full' className={cl.portfolio__item}>
-            <p className={cl.portfolio__name}>Одностраничное приложение</p>
+            Одностраничное приложение
             <img className={cl.portfolio__link} src={arrow} alt="ссылка на проект"/>
           </Link>
 
