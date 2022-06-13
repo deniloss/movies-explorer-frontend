@@ -115,6 +115,14 @@
 
 
 @media screen and (max-width: 400px) {
+    .register__image {
+        align-self: center;
+    }
+
+    .register__title {
+        align-self: center;
+    }
+
     .register__wrapper {
         width: 85%;
     }
