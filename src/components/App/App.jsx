@@ -18,30 +18,37 @@ function App() {
         <Routes>
 
           <Route
+            exact
             path='/'
             element={<Main />}
           />
           <Route
+            exact
             path="movies"
             element={<Movies />}
           />
           <Route
+            exact
             path="saved-movies"
             element={<SavedMovies />}
           />
           <Route
+            exact
             path="profile"
             element={<Profile name='Вова' email='vovan@yandex.ru' />}
           />
           <Route
+            exact
             path="signin"
             element={<Login />}
           />
           <Route
+            exact
             path="signup"
             element={<Register />}
           />
           <Route
+            exact
             path="*"
             element={<NotFound />}
           />

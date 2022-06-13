@@ -12,8 +12,9 @@ const Promo = () => {
           <h1 className={cl.promo__title}>Учебный проект студента факультета Веб-разработки.</h1>
           <p className={cl.promo__article}>Листайте ниже, чтобы узнать больше про этот <br/> проект и его создателя.</p>
         </div>
-      </div>
+
         <button className={cl.promo__button}>Узнать больше</button>
+      </div>
     </section>
   );
 };

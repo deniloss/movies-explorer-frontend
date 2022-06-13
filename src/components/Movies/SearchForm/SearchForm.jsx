@@ -12,7 +12,7 @@ const SearchForm = () => {
     <div className={cl.searchForm}>
 
       <form className={cl.searchForm__form} action="">
-        <input className={cl.searchForm__input} type="text" placeholder='Фильм'/>
+        <input className={cl.searchForm__input} required={true} type="text" placeholder='Фильм'/>
         <button className={cl.searchForm__formButton}>Найти</button>
       </form>
 

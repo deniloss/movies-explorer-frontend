@@ -97,6 +97,7 @@
 
 .navigation__burgerItem {
     font-family: Inter, sans-serif;
+    color: black;
     font-size: 18px;
     line-height: 22px;
     font-weight: 500;
