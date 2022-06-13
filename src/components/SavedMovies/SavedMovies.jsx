@@ -8,6 +8,7 @@ import cl from './SavedMovies.module.css';
 import Footer from "../Footer/Footer";
 
 const SavedMovies = (props) => {
+
   return (
     <section className={cl.savedMovies}>
       <Navigation/>

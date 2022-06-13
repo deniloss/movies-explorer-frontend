@@ -103,6 +103,10 @@
 
 
 @media screen and (max-width: 400px) {
+    .techs {
+        background-color: white;
+    }
+
     .techs__main {
         font-size: 30px;
         line-height: 36px;

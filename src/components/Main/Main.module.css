@@ -30,6 +30,7 @@
     font-weight: 500;
     text-decoration: none;
     margin-right: 2px;
+    border-radius: 3px;
 
     transition: background-color .2s;
 }
