@@ -54,6 +54,8 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 16px;
+
+    padding-left: 15px;
 }
 
 .register__error {
