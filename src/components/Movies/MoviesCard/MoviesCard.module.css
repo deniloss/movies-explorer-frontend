@@ -59,7 +59,6 @@
 
 @media screen and (max-width: 768px) {
     .card__image {
-        max-width: 342px;
         height: 190px;
     }
 }
