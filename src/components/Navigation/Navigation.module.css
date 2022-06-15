@@ -51,6 +51,7 @@
 .navigation__icon {
     width: 12px;
     height: 14px;
+    margin-right: 7px;
 }
 
 .navigation__burgerClose {
