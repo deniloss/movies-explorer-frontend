@@ -6,6 +6,7 @@ import bookmark from '../../../images/bookmark.svg'
 // todo После создания БД с фото удалить эту строчку
 import image from '../../../images/movie-example.png';
 import deleteIcon from '../../../images/deleteIcon.svg';
+import savedBookmark from '../../../images/saved-bookmark.svg';
 import {useLocation} from "react-router";
 
 const MoviesCard = (props) => {
@@ -13,7 +14,9 @@ const MoviesCard = (props) => {
   const { pathname } = useLocation();
 
   let Icon = pathname !== '/saved-movies' ? bookmark : deleteIcon;
-
+  if (props.isSaved) {
+    Icon = savedBookmark;
+  }
   return (
     <li className={cl.card}>
       <div className={cl.card__header}>

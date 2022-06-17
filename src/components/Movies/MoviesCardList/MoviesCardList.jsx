@@ -12,7 +12,7 @@ const MoviesCardList = () => {
   return (
     <section className={cl.CardList}>
       <ul className={cl.CardList__container}>
-        <MoviesCard title='33 слова о дизайне' time='1ч 37м' desc='О дизайне' />
+        <MoviesCard title='33 слова о дизайне' time='1ч 37м' desc='О дизайне' isSaved={true} />
         <MoviesCard title='33 слова о дизайне' time='1ч 37м' desc='О дизайне' />
         <MoviesCard title='33 слова о дизайне' time='1ч 37м' desc='О дизайне' />
         <MoviesCard title='33 слова о дизайне' time='1ч 37м' desc='О дизайне' />
