@@ -1,0 +1,123 @@
+.techs {
+    background-color: #F5F5F5;
+}
+
+.techs__container {
+    display: flex;
+    flex-direction: column;
+    width: 89%;
+    margin: auto;
+}
+
+.techs__title {
+    margin: 0;
+    padding: 100px 0 23px 0;
+    border-bottom: 1px solid black;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 26px;
+}
+
+.techs__main {
+    margin: 90px 0 26px 0;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+
+    color: black;
+}
+
+.techs__article {
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    margin: 0;
+
+    color: black;
+}
+
+.techs__list {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+
+    align-self: center;
+
+    margin-top: 100px;
+}
+
+.techs__item {
+    background-color: #E8E8E8;
+    padding: 21px 26px;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: black;
+    border-radius: 10px;
+    margin: 0 10px 100px 0;
+}
+
+.techs__item:last-child {
+    margin-right: 0;
+}
+
+
+@media screen and (max-width: 768px) {
+    .techs__article {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .techs__item {
+        padding: 21px 15px;
+        width: 84px;
+        box-sizing: border-box;
+        font-size: 12px;
+        line-height: 14px;
+
+        margin-bottom: 90px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .techs__list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 70px;
+    }
+
+    .techs__item {
+        margin-bottom: 0;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .techs {
+        background-color: white;
+    }
+
+    .techs__main {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .techs__list {
+        margin-top: 50px;
+    }
+
+    .techs__article {
+        font-size: 11px;
+        line-height: 16px;
+    }
+}

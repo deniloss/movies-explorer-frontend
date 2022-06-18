@@ -1,0 +1,155 @@
+.about {
+    background-color: white;
+}
+
+.about__container {
+    display: flex;
+    flex-direction: column;
+    width: 89%;
+    margin: auto;
+}
+
+.about__title {
+    padding: 110px 0 23px 0;
+    margin: 0;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 26px;
+
+    color: black;
+    border-bottom: 1px solid black;
+}
+
+.about__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 66px;
+}
+
+.about__item {
+    width: 100%;
+}
+
+.about__name {
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    margin: 0 0 18px 0;
+}
+
+.about__job {
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 0 0 26px 0;
+
+}
+
+.about__article {
+    max-width: 600px;
+
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+
+    margin: 0 0 99px 0;
+}
+
+.about__link {
+    text-decoration: none;
+
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: black;
+}
+.about__link:last-child {
+    margin-left: 20px;
+}
+
+
+.about__image {
+    max-width: 270px;
+    max-height: 327px;
+
+}
+
+
+@media screen and (max-width: 940px) {
+    .about__name {
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0 0 16px 0;
+    }
+
+    .about__job {
+        font-size: 12px;
+        line-height: 18px;
+        margin: 0 0 20px 0;
+    }
+
+    .about__article {
+        max-width: 360px;
+
+        font-size: 12px;
+        line-height: 18px;
+
+        margin: 0 0 87px 0;
+    }
+
+    .about__image {
+        max-width: 255px;
+        max-height: 307px;
+    }
+}
+
+
+@media screen and (max-width: 720px) {
+    .about__wrapper {
+        flex-direction: column;
+    }
+
+    .about__image {
+        max-width: 292px;
+        width: 60%;
+
+        order: 1;
+        margin-bottom: 40px;
+    }
+
+    .about__item {
+        order: 2;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .about__image {
+        width: 100%;
+        height: 352px;
+    }
+
+    .about__name {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .about__job {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .about__article {
+        font-size: 11px;
+        line-height: 16px;
+    }
+}

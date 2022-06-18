@@ -1,0 +1,119 @@
+.navigation {
+    background-color: white;
+    padding-bottom: 80px;
+}
+
+.navigation__header {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 89%;
+    justify-content: space-between;
+    padding: 18px 0;
+
+}
+
+.navigation__logo {
+    width: 38px;
+    height: 38px;
+}
+
+.navigation__link {
+    padding: 8px 20px;
+    background-color: transparent;
+    color: black;
+
+    font-size: 13px;
+    line-height: 3em;
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+}
+.navigation__link:active {
+    font-weight: 500;
+}
+
+.navigation__account {
+    background-color: transparent;
+    border: 2px solid #AAAA;
+    border-radius: 50px;
+    color: black;
+
+    padding: 8px 12px;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+.navigation__icon {
+    width: 12px;
+    height: 14px;
+    margin-right: 7px;
+}
+
+.navigation__burgerClose {
+    background-color: transparent;
+    border: none;
+    width: 22px;
+    height: 22px;
+
+    align-self: flex-end;
+    margin-right: 25px;
+    margin-top: 23px;
+}
+
+.navigation__burgerButt {
+    background-color: transparent;
+    width: 40px;
+    height: 43px;
+    border: none;
+}
+
+.navigation__burgerMenu {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 35%;
+    height: 100vh;
+    background-color: white;
+
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navigation__burgerMenu_active {
+    visibility: visible;
+}
+
+.navigation__burgerWrapper {
+    list-style: none;
+    margin-top: 105px;
+}
+
+.navigation__burgerItem {
+    font-family: Inter, sans-serif;
+    color: black;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+
+}
+.navigation__burgerItem li {
+    margin-bottom: 28px;
+}
+
+
+@media screen and (max-width: 425px) {
+    .navigation__burgerMenu {
+        left: 0;
+    }
+}
