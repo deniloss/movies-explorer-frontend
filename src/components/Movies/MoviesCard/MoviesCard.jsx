@@ -24,8 +24,6 @@ const MoviesCard = (props) => {
       <div className={cl.card__header}>
         <div>
           <h3 className={cl.card__title}>{props.title}</h3>
-
-          //todo Проверить разное время, возможно переработать
           <p className={cl.card__time}>{`${Math.trunc(props.time / 60)}ч ${props.time % 60}мин`}</p>
         </div>
         <button className={cl.card__save}><img src={Icon} alt="bookmark"/></button>
