@@ -11,20 +11,8 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 
 import NotFound from "../NotFound/NotFound";
-import {getMovies} from "../../utils/MainApi";
 
 function App() {
-
-  // ************** Работа с карточками
-  const [allCards, setAllCards] = React.useState([]);
-
-  React.useEffect(() => {
-    getMovies()
-      .then((data) => {
-        setAllCards(data)
-      })
-      .catch((err) => console.log(err))
-  })
 
   return (
     <section className="App">
@@ -39,12 +27,12 @@ function App() {
           <Route
             exact
             path="movies"
-            element={<Movies allCards={allCards} isLoading={true} />}
+            element={<Movies />}
           />
           <Route
             exact
             path="saved-movies"
-            element={<SavedMovies isLoading={true} />}
+            element={<SavedMovies />}
           />
           <Route
             exact
