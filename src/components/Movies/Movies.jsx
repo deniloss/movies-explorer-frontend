@@ -17,7 +17,9 @@ import {
   MOVIES_TO_NEXT_RENDER_2
 } from '../../utils/constants';
 
-const Movies = ({ allCards }) => {
+import Preloader from "../Preloader/Preloader";
+
+const Movies = ({ allCards, isLoading }) => {
   const { width } = useWindowWidth();
 
   const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
@@ -38,7 +40,16 @@ const Movies = ({ allCards }) => {
     <section className={cl.movies}>
       <Navigation />
       <SearchForm />
-      <MoviesCardList allCards={allCards} renderLimit={initMovies.current}  />
+
+      {isLoading
+        ?
+        <Preloader />
+        :
+        <MoviesCardList
+          allCards={allCards}
+          renderLimit={initMovies.current}
+        />
+      }
       <Footer />
     </section>
   );

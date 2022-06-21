@@ -39,12 +39,12 @@ function App() {
           <Route
             exact
             path="movies"
-            element={<Movies allCards={allCards} />}
+            element={<Movies allCards={allCards} isLoading={true} />}
           />
           <Route
             exact
             path="saved-movies"
-            element={<SavedMovies />}
+            element={<SavedMovies isLoading={true} />}
           />
           <Route
             exact
