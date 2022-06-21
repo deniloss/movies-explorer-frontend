@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
@@ -10,8 +11,21 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 
 import NotFound from "../NotFound/NotFound";
+import {getMovies} from "../../utils/MainApi";
 
 function App() {
+
+  // ************** Работа с карточками
+  const [allCards, setAllCards] = React.useState([]);
+
+  React.useEffect(() => {
+    getMovies()
+      .then((data) => {
+        setAllCards(data)
+      })
+      .catch((err) => console.log(err))
+  })
+
   return (
     <section className="App">
       <BrowserRouter>
@@ -25,7 +39,7 @@ function App() {
           <Route
             exact
             path="movies"
-            element={<Movies />}
+            element={<Movies allCards={allCards} />}
           />
           <Route
             exact
