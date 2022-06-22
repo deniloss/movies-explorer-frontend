@@ -37,7 +37,7 @@ const Register = () => {
         </form>
 
 
-        <p className={cl.register__span}>Уже зарегистрированы? <Link className={cl.register__login} to='login'>Войти</Link></p>
+        <p className={cl.register__span}>Уже зарегистрированы? <Link className={cl.register__login} to='/signin'>Войти</Link></p>
       </div>
     </section>
   );

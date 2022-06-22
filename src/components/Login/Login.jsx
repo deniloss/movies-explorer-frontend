@@ -29,7 +29,7 @@ const Login = () => {
         </form>
 
 
-        <p className={cl.login__span}>Ещё не зарегистрированы? <Link className={cl.login__login} to='login'>Зарегистрироваться</Link></p>
+        <p className={cl.login__span}>Ещё не зарегистрированы? <Link className={cl.login__login} to='/signup'>Зарегистрироваться</Link></p>
       </div>
     </section>
   );
