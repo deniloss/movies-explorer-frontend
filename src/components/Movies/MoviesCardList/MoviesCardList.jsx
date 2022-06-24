@@ -5,23 +5,27 @@ import cl from './MoviesCardList.module.css';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import {useLocation} from "react-router";
 
-
-const MoviesCardList = ({ allCards, renderLimit }) => {
+const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
 
   const { pathname } = useLocation();
 
   return (
     <section className={cl.CardList}>
       <ul className={cl.CardList__container}>
-        {allCards.map((item, index) => {
+        {allCards.map((item, index, array) => {
+          const limit = isSavedMovieList ? array.length : renderLimit
           return (
-            index < renderLimit &&
+            index < limit &&
             <MoviesCard
             key={item.id}
             title={item.nameRU}
             image={item.image.url}
             trailer={item.trailerLink}
             time={item.duration}
+            movieId={item.id}
+            isSavedMovieList={isSavedMovieList}
+            handleSaveMovie={handleSaveMovie}
+            handleRemoveMovie={handleRemoveMovie}
             />)
         })}
       </ul>

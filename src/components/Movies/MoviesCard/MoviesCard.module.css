@@ -52,10 +52,18 @@
     width: 30px;
     height: 30px;
     border: none;
+    cursor: pointer;
 
     background: url(../../../images/bookmark.svg);
 }
 
+.card__save_remove {
+    background: url("../../../images/deleteIcon.svg");
+}
+
+.card__save_saved {
+    background: url("../../../images/saved-bookmark.svg");
+}
 
 @media screen and (max-width: 768px) {
     .card__image {

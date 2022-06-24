@@ -22,7 +22,7 @@ import {
 import Preloader from "../Preloader/Preloader";
 import {useLocation} from "react-router";
 
-const Movies = () => {
+const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
   const { width } = useWindowWidth();
   const { pathname } = useLocation();
 
@@ -95,6 +95,9 @@ const Movies = () => {
         <MoviesCardList
           allCards={allCards}
           renderLimit={initMovies.current}
+          isSavedMovieList={isSavedMovieList}
+          handleSaveMovie={handleSaveMovie}
+          handleRemoveMovie={handleRemoveMovie}
         />
       }
       <Footer />

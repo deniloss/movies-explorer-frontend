@@ -7,21 +7,69 @@ import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import cl from './SavedMovies.module.css';
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
-import isLoading from '../Preloader/Preloader';
 
-const SavedMovies = ({allCards, initMovies}) => {
+import {getSavedMovies} from "../../utils/MoviesApi";
+import useWindowWidth from "../../utils/windowWidth";
+import {
+  MOVIES_TO_FIRST_RENDER_12, MOVIES_TO_FIRST_RENDER_5,
+  MOVIES_TO_FIRST_RENDER_8,
+  MOVIES_TO_NEXT_RENDER_2,
+  MOVIES_TO_NEXT_RENDER_3
+} from "../../utils/constants";
+
+const SavedMovies = ({ isSavedMovieList }) => {
+
+  const {width} = useWindowWidth()
+
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [inputValue, setSearchInput ] = React.useState('Введите ключевое слово');
+  const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    resize();
+  }, [width]);
+
+  const handleChange = (evt) => {
+    setSearchInput(evt.target.value)
+  }
+
+  const GetSavedMovies = (evt) => {
+    evt.preventDefault();
+    getSavedMovies()
+      .then((savedFilms) => {
+        setIsLoading(true);
+        localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
+        const films = JSON.parse(localStorage.savedMovieList);
+        setSavedMovies(films);
+      })
+      .then(() => setIsLoading(false))
+  }
+
+  const resize = () => {
+    if(width >= 768) {
+      setInitMovies({current: MOVIES_TO_FIRST_RENDER_12, next: MOVIES_TO_NEXT_RENDER_3})
+    } else if (width >= 425) {
+      setInitMovies({current: MOVIES_TO_FIRST_RENDER_8, next: MOVIES_TO_NEXT_RENDER_2})
+    } else setInitMovies({current: MOVIES_TO_FIRST_RENDER_5, next: MOVIES_TO_NEXT_RENDER_2})
+  }
 
   return (
     <section className={cl.savedMovies}>
       <Navigation/>
-      <SearchForm />
+      <SearchForm
+        onSubmit={GetSavedMovies}
+        setInput={handleChange}
+        inputValue={inputValue}
+      />
       {isLoading
         ?
         <Preloader />
         :
         <MoviesCardList
-          allCards={allCards}
+          allCards={savedMovies}
           renderLimit={initMovies.current}
+          isSavedMovieList={isSavedMovieList}
         />
       }
       <Footer />
