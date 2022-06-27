@@ -4,13 +4,7 @@ import Navigation from "../Navigation/Navigation";
 
 import cl from './Profile.module.css'
 
-const Profile = ({ name, email, handleLogOut }) => {
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    handleLogOut()
-  }
-
+const Profile = (props) => {
   return (
     <>
       <Navigation/>
@@ -24,7 +18,7 @@ const Profile = ({ name, email, handleLogOut }) => {
             <p className={cl.profile__titleInput}>Имя</p>
             <input
               className={cl.profile__input}
-              value={name || ''}
+              value={props.name || ''}
               type="text"
             />
           </div>
@@ -32,14 +26,14 @@ const Profile = ({ name, email, handleLogOut }) => {
             <p className={cl.profile__titleInput}>E-mail</p>
             <input
               className={cl.profile__input}
-              value={email || ''}
+              value={props.email || ''}
               type="email"
             />
           </div>
 
 
           <button className={cl.profile__button}>Редактировать</button>
-          <button type='submit' onSubmit={handleSubmit} className={cl.profile__button}> Выйти из аккаунта</button>
+          <button className={cl.profile__button}> Выйти из аккаунта</button>
         </form>
       </section>
     </>
