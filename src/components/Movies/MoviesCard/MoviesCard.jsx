@@ -6,6 +6,7 @@ const MoviesCard = ({ isSaved, title, trailer, time, image, movieId, isSavedMovi
 
   const imageUrl = ` https://api.nomoreparties.co/${image}`
 
+  const movie = {title, image, time, trailer}
 
   const cardButtonClassName = (`${cl.card__save} ${isSavedMovieList ? cl.card__save_remove : isSaved ? cl.card__save_saved : ''}`)
 
@@ -19,7 +20,7 @@ const MoviesCard = ({ isSaved, title, trailer, time, image, movieId, isSavedMovi
         <button
           className={cardButtonClassName}
           onClick={() => {
-            isSaved ? handleRemoveMovie(movieId) : handleSaveMovie(movieId)
+            isSaved ? handleRemoveMovie(movieId) : handleSaveMovie(movie)
           }}
         ></button>
       </div>

@@ -10,7 +10,7 @@ const Register = ({handleRegister}) => {
 
   const formWithValidation = useFormWithValidation();
   const {name, email, password} = formWithValidation.values;
-  const {values, handleChange, errors, onFocus, isFocused} = formWithValidation;
+  const {values, handleChange, errors, onFocus, isFocused, isValid} = formWithValidation;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -24,7 +24,7 @@ const Register = ({handleRegister}) => {
         <Link to='/' className={cl.register__image}><img src={image} alt="logo"/></Link>
 
         <h1 className={cl.register__title}>Добро пожаловать</h1>
-        <form onSubmit={handleSubmit} className={cl.register__form} action="">
+        <form noValidate onSubmit={handleSubmit} className={cl.register__form} action="">
 
           <label className={cl.register__label}>
             <span className={cl.register__inputName}>Имя</span>
@@ -64,7 +64,7 @@ const Register = ({handleRegister}) => {
             <span className={`${cl.register__error} ${cl.register__error_visible}`} >&nbsp;{isFocused && errors.password}</span>
           </label>
 
-          <button type='submit' className={cl.register__button}>Зарегистрироваться</button>
+          <button type='submit' disabled={!isValid} className={`${isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться</button>
 
         </form>
 

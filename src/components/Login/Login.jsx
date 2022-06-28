@@ -20,9 +20,6 @@ const Login = ({handleLogin}) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     handleLogin({ email, password })
-      .then(() => {
-
-      })
   }
 
   return (

@@ -36,8 +36,10 @@ function App() {
 
   const handleLogin = ({email, password}) => {
     logIn({email, password})
-      .then(() => {
+      .then((data) => {
+        localStorage.setItem('jwt', data.jwt);
         setLoggedIn(true);
+        history.push('/movies');
         handleGetUser();
       })
       .catch((err) => console.log(err))
@@ -53,21 +55,20 @@ function App() {
   }
 
   const handleGetUser = () => {
-    getUser()
-      .then((res) => {
-        console.log(res)
-        const {name, email} = res;
-        setCurrentUser({name, email});
-        setLoggedIn(true);
-        history.push('/movies');
-      })
-      .catch((err) => console.log(err))
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      getUser(jwt)
+        .then((data) => {
+          setCurrentUser(data);
+          setLoggedIn(true);
+          history.push('/movies');
+        })
+        .catch((err) => console.log(err))
+    }
   }
 
-
-
-  const handleSaveMovie = (id) => {
-    saveMovie(id)
+  const handleSaveMovie = (movie) => {
+    saveMovie(movie)
       .then((movie) => {
         setSavedMovies([movie, ...savedMovies]);
       })

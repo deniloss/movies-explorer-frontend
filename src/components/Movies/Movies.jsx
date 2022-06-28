@@ -29,7 +29,8 @@ const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
   const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
   const [inputValue, setSearchInput ] = React.useState('Введите ключевое слово');
   const [allCards, setAllCards] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false);
+
 
   React.useEffect(() => {
     resize();

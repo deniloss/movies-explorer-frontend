@@ -86,6 +86,9 @@
     font-size: 14px;
     line-height: 17px;
 }
+.register__button_disabled {
+    background-color: #E8E8E8;
+}
 
 .register__span {
     font-family: Inter, sans-serif;
