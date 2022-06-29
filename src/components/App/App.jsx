@@ -1,9 +1,6 @@
 import './App.css';
 import React from 'react';
-import {Routes, Route} from "react-router";
-import {BrowserRouter} from "react-router-dom";
-import {createBrowserHistory} from "history";
-
+import {Routes, Route, useNavigate} from "react-router";
 
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -20,11 +17,17 @@ import {saveMovie, removeMovie, signUp, logIn, logOut, getUser} from "../../util
 
 function App() {
 
-  const history = createBrowserHistory();
+  let navigate = useNavigate();
 
-  const [savedMovies, setSavedMovies] = React.useState([])
-  const [currentUser, setCurrentUser] = React.useState({})
-  const [loggedIn, setLoggedIn] = React.useState(false)
+  // ****************** Авторизация пользователей
+
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    handleGetUser();
+  }, []);
 
   const handleRegister = ({email, name, password}) => {
     signUp({email, name, password})
@@ -37,19 +40,11 @@ function App() {
   const handleLogin = ({email, password}) => {
     logIn({email, password})
       .then((data) => {
-        localStorage.setItem('jwt', data.jwt);
-        setLoggedIn(true);
-        history.push('/movies');
-        handleGetUser();
-      })
-      .catch((err) => console.log(err))
-  }
-
-  const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        setLoggedIn(false);
-        history.push('/')
+        if(data.jwt) {
+          localStorage.setItem('jwt', data.jwt);
+          setLoggedIn(true);
+          handleGetUser();
+        }
       })
       .catch((err) => console.log(err))
   }
@@ -57,15 +52,39 @@ function App() {
   const handleGetUser = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      getUser(jwt)
+      getUser()
         .then((data) => {
-          setCurrentUser(data);
-          setLoggedIn(true);
-          history.push('/movies');
+          if(data) {
+            setLoggedIn(true);
+            setCurrentUser(data);
+          }
         })
+        .then(() => navigate('/movies', {replace: true}))
         .catch((err) => console.log(err))
-    }
+    } else setLoggedIn(false);
   }
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        setLoggedIn(false);
+        console.log(localStorage.getItem('jwt'))
+        localStorage.removeItem('jwt');
+        console.log(localStorage.getItem('jwt'))
+      })
+      .catch((err) => console.log(err))
+  }
+
+  React.useEffect(() => {
+    getUser()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
+
+  // ****************** Работа с фильмами
 
   const handleSaveMovie = (movie) => {
     saveMovie(movie)
@@ -91,7 +110,6 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <section className="App">
-        <BrowserRouter>
           <Routes>
 
             <Route
@@ -144,7 +162,6 @@ function App() {
             />
 
           </Routes>
-        </BrowserRouter>
       </section>
     </CurrentUserContext.Provider>
 
