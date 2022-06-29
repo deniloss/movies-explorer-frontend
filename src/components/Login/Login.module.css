@@ -87,6 +87,9 @@
     font-size: 14px;
     line-height: 17px;
 }
+.login__button_disabled {
+    background-color: #E8E8E8;
+}
 
 .login__span {
     font-family: Inter, sans-serif;

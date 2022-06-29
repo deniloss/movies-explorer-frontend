@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {useFormWithValidation} from "../../utils/ReactValidation";
 
 import image from '../../images/logo.svg';
@@ -8,14 +9,17 @@ import cl from './Register.module.css';
 
 const Register = ({handleRegister}) => {
 
+  let navigate = useNavigate();
+
   const formWithValidation = useFormWithValidation();
   const {name, email, password} = formWithValidation.values;
-  const {values, handleChange, errors, onFocus, isFocused, isValid} = formWithValidation;
+  const {values, handleChange, errors, onFocus, isValid} = formWithValidation;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     handleRegister({name, email, password});
     formWithValidation.resetForm();
+    navigate('/movies', {replace: true});
   }
 
   return (
@@ -34,8 +38,9 @@ const Register = ({handleRegister}) => {
               onFocus={onFocus}
               placeholder='Имя'
               name='name'
-              type="text"/>
-            <span className={`${cl.register__error} ${cl.register__error_visible}`}>&nbsp;{isFocused && errors.name}</span>
+              type="text"
+            />
+            <span className={`${cl.register__error} ${cl.register__error_visible}`}>&nbsp;{errors.name}</span>
           </label>
 
           <label className={cl.register__label}>
@@ -47,8 +52,9 @@ const Register = ({handleRegister}) => {
               placeholder='E-mail'
               name='email'
               type="email"
-              value={values.email || ''}/>
-            <span className={`${cl.register__error} ${cl.register__error_visible}`}>&nbsp;{isFocused && errors.email}</span>
+              value={values.email || ''}
+            />
+            <span className={`${cl.register__error} ${cl.register__error_visible}`}>&nbsp;{errors.email}</span>
           </label>
 
           <label className={cl.register__label}>
@@ -60,11 +66,12 @@ const Register = ({handleRegister}) => {
               placeholder='Пароль'
               name='password'
               type="password"
-              value={values.password || ''}/>
-            <span className={`${cl.register__error} ${cl.register__error_visible}`} >&nbsp;{isFocused && errors.password}</span>
+              value={values.password || ''}
+            />
+            <span className={`${cl.register__error} ${cl.register__error_visible}`} >&nbsp;{errors.password}</span>
           </label>
 
-          <button type='submit' disabled={!isValid} className={`${isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться</button>
+          <button type='submit' disabled={!isValid} className={`${!isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться</button>
 
         </form>
 

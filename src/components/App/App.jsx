@@ -68,9 +68,7 @@ function App() {
     logOut()
       .then(() => {
         setLoggedIn(false);
-        console.log(localStorage.getItem('jwt'))
         localStorage.removeItem('jwt');
-        console.log(localStorage.getItem('jwt'))
       })
       .catch((err) => console.log(err))
   }
