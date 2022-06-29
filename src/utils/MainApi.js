@@ -60,12 +60,12 @@ function logOut() {
     .then(getResponse)
 }
 
-function getUser(jwt) {
+function getUser() {
   return fetch(`${baseUrl}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${jwt}`
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`
     }
   })
     .then(getResponse)
