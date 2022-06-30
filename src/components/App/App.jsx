@@ -13,7 +13,7 @@ import ProtectedRoutes from "../ProtectedRoute/ProtectedRoutes";
 import {CurrentUserContext} from "../../context/currentUserContext";
 
 import NotFound from "../NotFound/NotFound";
-import {saveMovie, removeMovie, signUp, logIn, logOut, getUser} from "../../utils/MainApi";
+import {saveMovie, removeMovie, signUp, logIn, logOut, getUser, updateUser} from "../../utils/MainApi";
 
 function App() {
 
@@ -64,6 +64,16 @@ function App() {
     } else setLoggedIn(false);
   }
 
+  const handleUpdateUser = (name, email) => {
+    updateUser(name, email)
+      .then((data) => {
+        if(data) {
+          setCurrentUser(data);
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+
   const handleLogOut = () => {
     logOut()
       .then(() => {
@@ -72,14 +82,6 @@ function App() {
       })
       .catch((err) => console.log(err))
   }
-
-  React.useEffect(() => {
-    getUser()
-      .then((data) => {
-        setCurrentUser(data)
-      })
-      .catch((err) => console.log(err))
-  }, [])
 
 
   // ****************** Работа с фильмами
@@ -138,7 +140,7 @@ function App() {
               <Route
                 exact
                 path="profile"
-                element={<Profile name={currentUser.name} email={currentUser.email} handleLogOut={handleLogOut}/>}
+                element={<Profile name={currentUser.name} email={currentUser.email} handleUpdateUser={handleUpdateUser} handleLogOut={handleLogOut}/>}
               />
             </Route>
 

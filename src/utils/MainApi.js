@@ -13,6 +13,9 @@ function getMovies() {
 function saveMovie(movie) {
   return fetch(`${baseUrl}/movies`, {
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`
+    },
     body: JSON.stringify(movie)
   })
     .then(getResponse)
@@ -71,6 +74,21 @@ function getUser() {
     .then(getResponse)
 }
 
+function updateUser(name, email) {
+  return fetch(`${baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email
+    })
+  })
+    .then(getResponse)
+}
+
 export {
   getMovies,
   saveMovie,
@@ -78,5 +96,6 @@ export {
   signUp,
   logOut,
   logIn,
-  getUser
+  getUser,
+  updateUser
 };
