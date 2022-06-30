@@ -37,7 +37,6 @@ const Profile = (props) => {
     props.handleUpdateUser(name, email);
   }
 
-  //todo Сделать функцию изменения профиля
 
   return (
     <>
