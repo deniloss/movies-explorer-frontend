@@ -5,7 +5,7 @@ import cl from './MoviesCardList.module.css';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import {useLocation} from "react-router";
 
-const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
+const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMovie, handleRemoveMovie, moreButtonHandler }) => {
 
   const { pathname } = useLocation();
 
@@ -30,7 +30,7 @@ const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMov
         })}
       </ul>
       {pathname !== '/saved-movies' ? (
-        <button className={cl.CardList__more}>Ещё</button>
+        <button type='button' onClick={moreButtonHandler} className={cl.CardList__more}>Ещё</button>
       ) : (
         ""
       )}

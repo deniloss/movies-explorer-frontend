@@ -79,6 +79,10 @@ const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
     }
   }
 
+  const moreButtonHandler = () => {
+    setInitMovies({ current: initMovies.current + initMovies.next, next: initMovies.next})
+  }
+
 
   return (
     <section className={cl.movies}>
@@ -99,6 +103,7 @@ const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
           isSavedMovieList={isSavedMovieList}
           handleSaveMovie={handleSaveMovie}
           handleRemoveMovie={handleRemoveMovie}
+          moreButtonHandler={moreButtonHandler}
         />
       }
       <Footer />
