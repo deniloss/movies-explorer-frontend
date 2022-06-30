@@ -50,6 +50,7 @@ const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
   }
 
   const filterFilms = (allCards) => {
+    console.log(allCards)
     const films = allCards.filter((movie) =>
       movie.nameRU.includes(inputValue)
     );
@@ -63,11 +64,6 @@ const Movies = ({ isSavedMovieList, handleSaveMovie, handleRemoveMovie }) => {
 
   const handleSearch = (evt) => {
     evt.preventDefault();
-    if (inputValue === '') {
-    //todo сделать фукнцию для вывода ошибок
-      console.log('инпут пустой')
-    }
-
     if (pathname === '/movies') {
       setIsLoading(true);
       getMovies()

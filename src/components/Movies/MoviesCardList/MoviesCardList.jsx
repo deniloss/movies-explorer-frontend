@@ -18,11 +18,18 @@ const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMov
             index < limit &&
             <MoviesCard
             key={item.id}
-            title={item.nameRU}
+            nameRU={item.nameRU}
+            nameEN={item.nameEN}
             image={item.image.url}
             trailer={item.trailerLink}
-            time={item.duration}
+            duration={item.duration}
             movieId={item.id}
+            country={item.country}
+            director={item.director}
+            description={item.description}
+            year={item.year}
+            trailerLink={item.trailerLink}
+            thumbnail={item.image.formats.thumbnail.url}
             isSavedMovieList={isSavedMovieList}
             handleSaveMovie={handleSaveMovie}
             handleRemoveMovie={handleRemoveMovie}
