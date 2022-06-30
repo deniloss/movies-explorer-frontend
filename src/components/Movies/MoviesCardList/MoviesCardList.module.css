@@ -18,6 +18,7 @@
 .CardList__more {
     background-color: #F9F9F9;
     border: none;
+    cursor: pointer;
     border-radius: 6px;
     width: 90%;
     height: 36px;
