@@ -13,7 +13,7 @@ const Register = ({handleRegister}) => {
 
   const formWithValidation = useFormWithValidation();
   const {name, email, password} = formWithValidation.values;
-  const {values, handleChange, errors, onFocus, isValid} = formWithValidation;
+  const {values, handleChange, errors, isValid} = formWithValidation;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -35,7 +35,6 @@ const Register = ({handleRegister}) => {
             <input
               className={cl.register__input}
               onChange={handleChange}
-              onFocus={onFocus}
               placeholder='Имя'
               name='name'
               type="text"
@@ -48,7 +47,6 @@ const Register = ({handleRegister}) => {
             <input
               className={cl.register__input}
               onChange={handleChange}
-              onFocus={onFocus}
               placeholder='E-mail'
               name='email'
               type="email"
@@ -62,7 +60,6 @@ const Register = ({handleRegister}) => {
             <input
               className={cl.register__input}
               onChange={handleChange}
-              onFocus={onFocus}
               placeholder='Пароль'
               name='password'
               type="password"
