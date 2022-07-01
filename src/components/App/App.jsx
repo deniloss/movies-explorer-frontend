@@ -134,7 +134,6 @@ function App() {
                 path="saved-movies"
                 element={<SavedMovies
                   isSavedMovieList={true}
-                  handleSaveMovie={handleSaveMovie}
                 />}
               />
               <Route

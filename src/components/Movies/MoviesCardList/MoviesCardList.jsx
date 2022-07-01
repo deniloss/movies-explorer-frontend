@@ -13,11 +13,19 @@ const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMov
     <section className={cl.CardList}>
       <ul className={cl.CardList__container}>
         {allCards.map((item, index, array) => {
+
+          if(isSavedMovieList) {
+            var savedThumb = item.thumbnail;
+            var savedId = item._id;
+          } else {
+            var thumb = item.image.formats.thumbnail.url;
+          }
+
           const limit = isSavedMovieList ? array.length : renderLimit
           return (
             index < limit &&
             <MoviesCard
-            key={item.id}
+            key={item.id || savedId}
             nameRU={item.nameRU}
             nameEN={item.nameEN}
             image={item.image.url}
@@ -29,7 +37,7 @@ const MoviesCardList = ({ allCards, renderLimit, isSavedMovieList, handleSaveMov
             description={item.description}
             year={item.year}
             trailerLink={item.trailerLink}
-            thumbnail={item.image.formats.thumbnail.url}
+            thumbnail={thumb || savedThumb}
             isSavedMovieList={isSavedMovieList}
             handleSaveMovie={handleSaveMovie}
             handleRemoveMovie={handleRemoveMovie}

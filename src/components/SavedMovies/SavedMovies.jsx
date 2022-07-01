@@ -16,10 +16,12 @@ import {
   MOVIES_TO_NEXT_RENDER_2,
   MOVIES_TO_NEXT_RENDER_3
 } from "../../utils/constants";
+import {useLocation} from "react-router";
 
 const SavedMovies = ({ isSavedMovieList }) => {
 
-  const {width} = useWindowWidth()
+  const {width} = useWindowWidth();
+  const { pathname } = useLocation();
 
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [inputValue, setSearchInput ] = React.useState('Введите ключевое слово');
@@ -34,16 +36,18 @@ const SavedMovies = ({ isSavedMovieList }) => {
     setSearchInput(evt.target.value)
   }
 
-  const GetSavedMovies = (evt) => {
+  const handleSearch = (evt) => {
     evt.preventDefault();
-    getSavedMovies()
-      .then((savedFilms) => {
-        setIsLoading(true);
-        localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
-        const films = JSON.parse(localStorage.savedMovieList);
-        setSavedMovies(films);
-      })
-      .then(() => setIsLoading(false))
+    setIsLoading(true);
+    if (pathname === '/saved-movies') {
+      getSavedMovies()
+        .then((savedFilms) => {
+          localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
+          const films = JSON.parse(localStorage.savedMovieList);
+          setSavedMovies(films);
+        })
+        .then(() => setIsLoading(false))
+    }
   }
 
   const resize = () => {
@@ -58,7 +62,7 @@ const SavedMovies = ({ isSavedMovieList }) => {
     <section className={cl.savedMovies}>
       <Navigation/>
       <SearchForm
-        onSubmit={GetSavedMovies}
+        onSubmit={handleSearch}
         setInput={handleChange}
         inputValue={inputValue}
       />

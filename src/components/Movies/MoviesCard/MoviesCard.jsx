@@ -2,8 +2,6 @@ import React from 'react';
 
 import cl from './MoviesCard.module.css';
 
-//todo Исправить механизм отображения сохраненных фильмов
-
 const MoviesCard = ({
                       isSaved,
                       nameRU,
