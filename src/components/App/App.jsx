@@ -113,9 +113,8 @@ function App() {
         <Routes>
 
           <Route
-            exact
             path='/'
-            element={<Main loggedIn />}
+            element={<Main loggedIn currentUser />}
           />
 
 
