@@ -4,10 +4,7 @@ import React from 'react';
 import cl from './SearchForm.module.css';
 import Switch from "react-switch";
 
-const SearchForm = ({ setInput, inputValue, onSubmit }) => {
-
-  const [checked, setChecked] = React.useState(false)
-
+const SearchForm = ({ setInput, inputValue, onSubmit, setChecked, checked }) => {
 
   return (
     <div className={cl.searchForm}>
