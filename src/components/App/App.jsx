@@ -13,7 +13,7 @@ import ProtectedRoutes from "../ProtectedRoute/ProtectedRoutes";
 import {CurrentUserContext} from "../../context/currentUserContext";
 
 import NotFound from "../NotFound/NotFound";
-import {saveMovie, removeMovie, signUp, logIn, logOut, getUser, updateUser} from "../../utils/MainApi";
+import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser} from "../../utils/MainApi";
 
 function App() {
 
@@ -75,12 +75,8 @@ function App() {
   }
 
   const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        setLoggedIn(false);
-        localStorage.removeItem('jwt');
-      })
-      .catch((err) => console.log(err))
+    setLoggedIn(false);
+    localStorage.removeItem('jwt');
   }
 
 
@@ -114,7 +110,7 @@ function App() {
 
           <Route
             path='/'
-            element={<Main loggedIn currentUser />}
+            element={<Main loggedIn currentUser/>}
           />
 
 
