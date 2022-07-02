@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigate} from "react-router";
 
 import Navigation from "../Navigation/Navigation";
 // import {useFormWithValidation} from "../../utils/ReactValidation";
@@ -10,6 +11,7 @@ const Profile = (props) => {
   // const formWithValidation = useFormWithValidation();
   // const {name, email} = formWithValidation.values;
   // const {values, handleChange, errors, onFocus, isValid} = formWithValidation;
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setName(props.name);
@@ -31,6 +33,7 @@ const Profile = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     props.handleLogOut();
+    navigate('/signin', {replace: true})
   }
 
   const handleChangeProfile = () => {
