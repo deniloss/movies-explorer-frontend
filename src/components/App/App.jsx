@@ -40,10 +40,11 @@ function App() {
   const handleLogin = ({email, password}) => {
     logIn({email, password})
       .then((data) => {
-        if(data.jwt) {
+        if (data.jwt) {
           localStorage.setItem('jwt', data.jwt);
           setLoggedIn(true);
           handleGetUser();
+          navigate('/movies', {replace: true})
         }
       })
       .catch((err) => console.log(err))
@@ -54,12 +55,11 @@ function App() {
     if (jwt) {
       getUser()
         .then((data) => {
-          if(data) {
+          if (data) {
             setLoggedIn(true);
             setCurrentUser(data);
           }
         })
-        .then(() => navigate('/movies', {replace: true}))
         .catch((err) => console.log(err))
     } else setLoggedIn(false);
   }
@@ -67,7 +67,7 @@ function App() {
   const handleUpdateUser = (name, email) => {
     updateUser(name, email)
       .then((data) => {
-        if(data) {
+        if (data) {
           setCurrentUser(data);
         }
       })
@@ -110,61 +110,66 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <section className="App">
-          <Routes>
+        <Routes>
 
+          <Route
+            exact
+            path='/'
+            element={<Main loggedIn />}
+          />
+
+
+          <Route path='/movies' element={<ProtectedRoutes loggedIn={loggedIn}/>}>
             <Route
               exact
-              path='/'
-              element={<Main/>}
-            />
-
-
-            <Route path='/' element={<ProtectedRoutes loggedIn={loggedIn}/>}>
-              <Route
-                exact
-                path="movies"
-                element={<Movies
-                  isSavedMovieList={false}
-                  handleSaveMovie={handleSaveMovie}
-                  handleRemoveMovie={handleRemoveMovie}
-                />}
-              />
-              <Route
-                exact
-                path="saved-movies"
-                element={<SavedMovies
-                  isSavedMovieList={true}
-                />}
-              />
-              <Route
-                exact
-                path="profile"
-                element={<Profile name={currentUser.name} email={currentUser.email} handleUpdateUser={handleUpdateUser} handleLogOut={handleLogOut}/>}
-              />
-            </Route>
-
-
-            <Route
-              exact
-              path="signin"
-              element={<Login handleLogin={handleLogin}/>}
+              path="/movies"
+              element={<Movies
+                isSavedMovieList={false}
+                handleSaveMovie={handleSaveMovie}
+                handleRemoveMovie={handleRemoveMovie}
+              />}
             />
             <Route
               exact
-              path="signup"
-              element={<Register handleRegister={handleRegister}/>}
+              path="saved"
+              element={<SavedMovies
+                isSavedMovieList={true}
+              />}
             />
+          </Route>
+
+          <Route path='/profile'
+                 element={<Profile name={currentUser.name} email={currentUser.email} handleUpdateUser={handleUpdateUser}
+                                   handleLogOut={handleLogOut}/>}>
             <Route
               exact
-              path="*"
-              element={<NotFound/>}
+              path=''
+              element={<Profile/>}
             />
+          </Route>
 
-          </Routes>
+          <Route
+            exact
+            path="signin"
+            element={<Login handleLogin={handleLogin}/>}
+          />
+          <Route
+            exact
+            path="signup"
+            element={<Register handleRegister={handleRegister}/>}
+          />
+          <Route
+            exact
+            path="*"
+            element={<NotFound/>}
+          />
+
+        </Routes>
       </section>
     </CurrentUserContext.Provider>
 
-  );
+  )
+    ;
 }
 
 export default App;

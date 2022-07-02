@@ -8,10 +8,24 @@ import icon from '../../images/icon-account.svg'
 import burger_icon from '../../images/burger-icon.svg';
 import burger_close from '../../images/burger_close.svg';
 import {Link} from "react-router-dom";
+import {useLocation} from "react-router";
 
 const Navigation = () => {
 
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 800)
+  const {pathname} = useLocation()
+
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 800);
+
+  let navigationClassName = `${cl.navigation}`;
+  let navigationLinkClassName = `${cl.navigation__link}`;
+  let navigationAccountClassName = `${cl.navigation__account}`;
+
+  if (pathname === '/') {
+    navigationClassName = `${cl.navigation} ${cl.navigation_main}`;
+    navigationLinkClassName = `${cl.navigation__link} ${cl.navigation__link_main}`;
+    navigationAccountClassName = `${cl.navigation__account} ${cl.navigation__account_main}`
+  }
+
 
   function updateScreenType() {
     setIsMobile(window.innerWidth <= 800);
@@ -24,21 +38,20 @@ const Navigation = () => {
     };
   }, []);
 
-
   return (
 
     <>
       {!isMobile && (
-        <section className={cl.navigation}>
+        <section className={navigationClassName}>
 
           <nav className={cl.navigation__header}>
             <a className={cl.navigation__logo} href="/"><img src={image} alt="Logo"/></a>
 
             <div className={cl.navigation__links}>
-              <Link to ='/movies' className={cl.navigation__link}>Фильмы</Link>
-              <Link to ='/saved-movies' className={cl.navigation__link}>Сохранённые фильмы</Link>
+              <Link to ='/movies' className={navigationLinkClassName}>Фильмы</Link>
+              <Link to ='/movies/saved' className={navigationLinkClassName}>Сохранённые фильмы</Link>
             </div>
-            <Link to ='/profile' className={cl.navigation__account}><img className={cl.navigation__icon} src={icon} alt="Иконка аккаунта"/>Аккаунт</Link>
+            <Link to ='/profile' className={navigationAccountClassName}><img className={cl.navigation__icon} src={icon} alt="Иконка аккаунта"/>Аккаунт</Link>
           </nav>
 
         </section>

@@ -2,6 +2,9 @@
     background-color: white;
     padding-bottom: 80px;
 }
+.navigation_main {
+    background-color: #5C5C5C;
+}
 
 .navigation__header {
     display: flex;
@@ -29,6 +32,9 @@
     font-weight: 400;
     text-decoration: none;
 }
+.navigation__link_main {
+    color: white;
+}
 .navigation__link:active {
     font-weight: 500;
 }
@@ -46,6 +52,10 @@
     font-weight: 500;
     line-height: 16px;
     text-decoration: none;
+}
+.navigation__account_main {
+    color: white;
+    border: 2px solid white;
 }
 
 .navigation__icon {
