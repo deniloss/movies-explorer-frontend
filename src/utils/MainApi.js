@@ -26,6 +26,7 @@ function removeMovie(movie) {
   return fetch(`${baseUrl}/movies/${movie}`, {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`,
       "Content-Type": "application/json"
     },
   })

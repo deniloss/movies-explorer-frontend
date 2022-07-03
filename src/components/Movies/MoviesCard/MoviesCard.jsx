@@ -3,7 +3,7 @@ import React from 'react';
 import cl from './MoviesCard.module.css';
 
 const MoviesCard = ({
-                      isSaved,
+                      savedMovies,
                       nameRU,
                       nameEN,
                       duration,
@@ -20,12 +20,42 @@ const MoviesCard = ({
                       thumbnail
                     }) => {
 
-  const imageUrl = `https://api.nomoreparties.co/${image}`;
+  let imageUrl;
+  let isSaved = false;
+  let savedId;
+
+  if (isSavedMovieList) {
+    imageUrl = image;
+  } else {
+    isSaved = savedMovies.some((item) => {
+      savedId = item._id;
+      return item.movieId === movieId;
+    })
+    imageUrl = `https://api.nomoreparties.co${image}`
+  }
+
+
   const thumbnailUrl = `https://api.nomoreparties.co/${thumbnail}`
   const cardButtonClassName = (`${cl.card__save} ${isSavedMovieList ? cl.card__save_remove : isSaved ? cl.card__save_saved : ''}`);
 
+  const handleDeleteCard = (movieId) => {
+    handleRemoveMovie(movieId);
+  }
+
   const handleClickIcon = () => {
-    handleSaveMovie({ nameRU, country, duration, director, year, description, image: imageUrl, trailerLink, thumbnail: thumbnailUrl, movieId, nameEN })
+    handleSaveMovie({
+      nameRU,
+      country,
+      duration,
+      director,
+      year,
+      description,
+      image: imageUrl,
+      trailerLink,
+      thumbnail: thumbnailUrl,
+      movieId,
+      nameEN
+    })
   }
 
   return (
@@ -38,7 +68,7 @@ const MoviesCard = ({
         <button
           className={cardButtonClassName}
           onClick={() => {
-            isSaved ? handleRemoveMovie(movieId) : handleClickIcon()
+            isSavedMovieList ? handleDeleteCard(movieId) : isSaved ? handleDeleteCard(savedId) : handleClickIcon()
           }}
         ></button>
       </div>

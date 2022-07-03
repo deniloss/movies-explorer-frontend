@@ -17,7 +17,7 @@ const Register = ({handleRegister}) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    handleRegister({name, email, password});
+    handleRegister({name, email, password})
     formWithValidation.resetForm();
     navigate('/movies', {replace: true});
   }
@@ -65,10 +65,12 @@ const Register = ({handleRegister}) => {
               type="password"
               value={values.password || ''}
             />
-            <span className={`${cl.register__error} ${cl.register__error_visible}`} >&nbsp;{errors.password}</span>
+            <span className={`${cl.register__error} ${cl.register__error_visible}`}>&nbsp;{errors.password}</span>
           </label>
 
-          <button type='submit' disabled={!isValid} className={`${!isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться</button>
+          <button type='submit' disabled={!isValid}
+                  className={`${!isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться
+          </button>
 
         </form>
 

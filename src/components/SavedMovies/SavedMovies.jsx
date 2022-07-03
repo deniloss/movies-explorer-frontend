@@ -18,15 +18,17 @@ import {
 } from "../../utils/constants";
 import {useLocation} from "react-router";
 
-const SavedMovies = ({ isSavedMovieList }) => {
+const SavedMovies = ({ isSavedMovieList, handleRemoveMovie, setSavedMovies, savedMovies }) => {
 
   const {width} = useWindowWidth();
   const { pathname } = useLocation();
 
-  const [savedMovies, setSavedMovies] = React.useState([]);
   const [inputValue, setSearchInput ] = React.useState('Введите ключевое слово');
   const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+
+  //todo Сделать исправный чекбокс на короткометражки
 
   React.useEffect(() => {
     resize();
@@ -39,11 +41,14 @@ const SavedMovies = ({ isSavedMovieList }) => {
   const handleSearch = (evt) => {
     evt.preventDefault();
     setIsLoading(true);
-    if (pathname === '/saved-movies') {
+    if (pathname === '/movies/saved') {
       getSavedMovies()
         .then((savedFilms) => {
           localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
           const films = JSON.parse(localStorage.savedMovieList);
+
+          console.log(films)
+
           setSavedMovies(films);
         })
         .then(() => setIsLoading(false))
@@ -65,6 +70,7 @@ const SavedMovies = ({ isSavedMovieList }) => {
         onSubmit={handleSearch}
         setInput={handleChange}
         inputValue={inputValue}
+        checked={checked}
       />
       {isLoading
         ?
@@ -74,6 +80,7 @@ const SavedMovies = ({ isSavedMovieList }) => {
           allCards={savedMovies}
           renderLimit={initMovies.current}
           isSavedMovieList={isSavedMovieList}
+          handleRemoveMovie={handleRemoveMovie}
         />
       }
       <Footer />

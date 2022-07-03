@@ -14,6 +14,7 @@ import {CurrentUserContext} from "../../context/currentUserContext";
 
 import NotFound from "../NotFound/NotFound";
 import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser} from "../../utils/MainApi";
+import {getSavedMovies} from "../../utils/MoviesApi";
 
 function App() {
 
@@ -28,6 +29,11 @@ function App() {
   React.useEffect(() => {
     handleGetUser();
   }, []);
+
+  React.useEffect(() => {
+    getSavedMovies()
+      .then((data) => setSavedMovies(data))
+  }, [])
 
   const handleRegister = ({email, name, password}) => {
     signUp({email, name, password})
@@ -94,13 +100,8 @@ function App() {
 
   const handleRemoveMovie = (id) => {
     removeMovie(id)
-      .then(() => {
-        const newSavedMovies = savedMovies.filter((movie) => movie._id !== id);
-        setSavedMovies(newSavedMovies);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      .then(() => setSavedMovies(savedMovies.filter(item => item._id !== id)))
+      .catch((err) => console.log(err))
   }
 
   return (
@@ -122,6 +123,7 @@ function App() {
                 isSavedMovieList={false}
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
+                savedMovies={savedMovies}
               />}
             />
             <Route
@@ -129,6 +131,9 @@ function App() {
               path="saved"
               element={<SavedMovies
                 isSavedMovieList={true}
+                setSavedMovies={setSavedMovies}
+                savedMovies={savedMovies}
+                handleRemoveMovie={handleRemoveMovie}
               />}
             />
           </Route>

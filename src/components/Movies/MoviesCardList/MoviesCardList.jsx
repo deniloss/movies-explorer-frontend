@@ -7,6 +7,7 @@ import {useLocation} from "react-router";
 
 const MoviesCardList = ({
                           allCards,
+                          savedMovies,
                           renderLimit,
                           isSavedMovieList,
                           handleSaveMovie,
@@ -24,6 +25,7 @@ const MoviesCardList = ({
           if (isSavedMovieList) {
             var savedThumb = item.thumbnail;
             var savedId = item._id;
+            var image = item.image;
           } else {
             var thumb = item.image.formats.thumbnail.url;
           }
@@ -33,12 +35,13 @@ const MoviesCardList = ({
             index < limit &&
             <MoviesCard
               key={item.id || savedId}
+              savedMovies={savedMovies}
               nameRU={item.nameRU}
               nameEN={item.nameEN}
-              image={item.image.url}
+              image={item.image.url || image}
               trailer={item.trailerLink}
               duration={item.duration}
-              movieId={item.id}
+              movieId={item.id || savedId}
               country={item.country}
               director={item.director}
               description={item.description}

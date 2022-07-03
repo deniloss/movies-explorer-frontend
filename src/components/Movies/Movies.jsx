@@ -22,7 +22,7 @@ import {
 import Preloader from "../Preloader/Preloader";
 import {useLocation} from "react-router";
 
-const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie}) => {
+const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovies}) => {
   const {width} = useWindowWidth();
   const {pathname} = useLocation();
 
@@ -34,11 +34,7 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie}) => {
 
   React.useEffect(() => {
     resize();
-  }, [width])
-
-  const handleChange = (evt) => {
-    setSearchInput(evt.target.value)
-  }
+  }, [width]);
 
   const resize = () => {
     if (width >= 768) {
@@ -46,6 +42,10 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie}) => {
     } else if (width >= 425) {
       setInitMovies({current: MOVIES_TO_FIRST_RENDER_8, next: MOVIES_TO_NEXT_RENDER_2})
     } else setInitMovies({current: MOVIES_TO_FIRST_RENDER_5, next: MOVIES_TO_NEXT_RENDER_2})
+  }
+
+  const handleChange = (evt) => {
+    setSearchInput(evt.target.value)
   }
 
   const handleCheckBox = () => {
@@ -64,6 +64,7 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie}) => {
   }
 
   const filterFilms = (allCards) => {
+    console.log(allCards)
     const films = allCards.filter((movie) =>
       movie.nameRU.toLowerCase().includes(inputValue)
     );
@@ -108,6 +109,7 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie}) => {
         :
         <MoviesCardList
           allCards={allCards}
+          savedMovies={savedMovies}
           renderLimit={initMovies.current}
           isSavedMovieList={isSavedMovieList}
           handleSaveMovie={handleSaveMovie}
