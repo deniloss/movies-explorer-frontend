@@ -36,6 +36,15 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovi
     resize();
   }, [width]);
 
+  React.useEffect(() => {
+    if (localStorage.getItem('lastSearch')) {
+      setAllCards(() => {
+        const films = JSON.parse(localStorage.getItem('foundFilms'))
+        return films;
+      })
+    }
+  }, [])
+
   const resize = () => {
     if (width >= 768) {
       setInitMovies({current: MOVIES_TO_FIRST_RENDER_12, next: MOVIES_TO_NEXT_RENDER_3})
@@ -76,6 +85,7 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovi
   const handleSearch = (evt) => {
     evt.preventDefault();
     if (pathname === '/movies') {
+      localStorage.setItem('lastSearch', inputValue);
       setIsLoading(true);
       getMovies()
         .then((list) => {
