@@ -34,22 +34,47 @@ const SavedMovies = ({ isSavedMovieList, handleRemoveMovie, setSavedMovies, save
     resize();
   }, [width]);
 
+  React.useEffect(() => {
+    setIsLoading(true);
+    getSavedMovies()
+      .then((savedFilms) => {
+        localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
+        const films = JSON.parse(localStorage.savedMovieList);
+        setSavedMovies(films);
+      })
+      .then(() => setIsLoading(false))
+  }, [])
+
   const handleChange = (evt) => {
     setSearchInput(evt.target.value)
   }
 
+  const handleCheckBox = () => {
+    setChecked(!checked);
+
+    if (checked === false) {
+      const shortFilms = savedMovies.filter(movie => movie.duration <= 40);
+
+      setSavedMovies(() => {
+        localStorage.setItem('shortFilms', shortFilms)
+        return shortFilms;
+      })
+    } else if(checked === true) {
+      setSavedMovies(JSON.parse(localStorage.foundFilms))
+    }
+  }
+
   const handleSearch = (evt) => {
     evt.preventDefault();
-    setIsLoading(true);
     if (pathname === '/movies/saved') {
       getSavedMovies()
         .then((savedFilms) => {
           localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
           const films = JSON.parse(localStorage.savedMovieList);
-
-          console.log(films)
-
-          setSavedMovies(films);
+          const filteredFilms = films.filter((item) =>
+            item.nameRU.toLowerCase().includes(inputValue)
+          );
+          setSavedMovies(filteredFilms);
         })
         .then(() => setIsLoading(false))
     }
@@ -71,6 +96,7 @@ const SavedMovies = ({ isSavedMovieList, handleRemoveMovie, setSavedMovies, save
         setInput={handleChange}
         inputValue={inputValue}
         checked={checked}
+        setChecked={handleCheckBox}
       />
       {isLoading
         ?

@@ -64,7 +64,6 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovi
   }
 
   const filterFilms = (allCards) => {
-    console.log(allCards)
     const films = allCards.filter((movie) =>
       movie.nameRU.toLowerCase().includes(inputValue)
     );

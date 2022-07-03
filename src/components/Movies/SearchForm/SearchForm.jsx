@@ -9,7 +9,7 @@ const SearchForm = ({ setInput, inputValue, onSubmit, setChecked, checked }) => 
   return (
     <div className={cl.searchForm}>
 
-      <form className={cl.searchForm__form} onSubmit={onSubmit}>
+      <form noValidate className={cl.searchForm__form} onSubmit={onSubmit}>
         <input
           className={cl.searchForm__input}
           required type="text"
