@@ -73,7 +73,10 @@ const MoviesCard = ({
         ></button>
       </div>
 
-      <img className={cl.card__image} src={imageUrl} alt='фото карточки'/>
+      <a href={trailerLink} target='_blank' className={cl.card__linkTrailer}>
+        <img className={cl.card__image} src={imageUrl} alt='фото карточки'/>
+      </a>
+
     </li>
   );
 };
