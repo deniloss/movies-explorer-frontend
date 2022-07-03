@@ -13,11 +13,10 @@ import Portfolio from "./Portfolio/Portfolio";
 import Footer from "../Footer/Footer";
 
 
-const Main = ({loggedIn, currentUser}) => {
-
+const Main = ({loggedIn}) => {
   return (
     <section className={cl.main}>
-      {loggedIn & currentUser
+      {loggedIn
         ?
         <Navigation />
         :

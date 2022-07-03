@@ -28,12 +28,12 @@ function App() {
 
   React.useEffect(() => {
     handleGetUser();
-  }, []);
 
-  React.useEffect(() => {
-    getSavedMovies()
-      .then((data) => setSavedMovies(data))
-  }, [])
+    if (loggedIn) {
+      getSavedMovies()
+        .then((data) => setSavedMovies(data))
+    }
+  }, []);
 
   const handleRegister = ({email, name, password}) => {
     signUp({email, name, password})
@@ -83,6 +83,7 @@ function App() {
   const handleLogOut = () => {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
+    setCurrentUser({})
   }
 
 
@@ -111,7 +112,7 @@ function App() {
 
           <Route
             path='/'
-            element={<Main loggedIn currentUser/>}
+            element={<Main loggedIn={loggedIn}/>}
           />
 
 
@@ -138,14 +139,14 @@ function App() {
             />
           </Route>
 
-          <Route path='/profile'
-                 element={<Profile name={currentUser.name} email={currentUser.email} handleUpdateUser={handleUpdateUser}
-                                   handleLogOut={handleLogOut}/>}>
+          <Route path='/profile' element={<ProtectedRoutes loggedIn={loggedIn}/>}>
             <Route
-              exact
               path=''
-              element={<Profile/>}
-            />
+              element={<Profile
+                name={currentUser.name}
+                email={currentUser.email}
+                handleUpdateUser={handleUpdateUser}
+                handleLogOut={handleLogOut}/>}/>
           </Route>
 
           <Route

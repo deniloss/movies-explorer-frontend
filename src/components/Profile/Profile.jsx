@@ -33,7 +33,7 @@ const Profile = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     props.handleLogOut();
-    navigate('/signin', {replace: true})
+    navigate('/', {replace: true})
   }
 
   const handleChangeProfile = () => {
