@@ -98,7 +98,13 @@
     text-align: center;
 
     color: #A0A0A0;
+}
 
+.register__regError {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    color: red;
 }
 
 .register__login {

@@ -2,15 +2,9 @@ import React from 'react';
 import {useNavigate} from "react-router";
 
 import Navigation from "../Navigation/Navigation";
-// import {useFormWithValidation} from "../../utils/ReactValidation";
-
 import cl from './Profile.module.css'
 
 const Profile = (props) => {
-
-  // const formWithValidation = useFormWithValidation();
-  // const {name, email} = formWithValidation.values;
-  // const {values, handleChange, errors, onFocus, isValid} = formWithValidation;
   const navigate = useNavigate();
 
   React.useEffect(() => {

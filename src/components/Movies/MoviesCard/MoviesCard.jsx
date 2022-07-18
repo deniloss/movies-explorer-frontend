@@ -31,9 +31,8 @@ const MoviesCard = ({
       savedId = item._id;
       return item.movieId === movieId;
     })
-    imageUrl = `https://api.nomoreparties.co${image}`
+    imageUrl = image;
   }
-
 
   const thumbnailUrl = `https://api.nomoreparties.co/${thumbnail}`
   const cardButtonClassName = (`${cl.card__save} ${isSavedMovieList ? cl.card__save_remove : isSaved ? cl.card__save_saved : ''}`);

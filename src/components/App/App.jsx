@@ -13,37 +13,55 @@ import ProtectedRoutes from "../ProtectedRoute/ProtectedRoutes";
 import {CurrentUserContext} from "../../context/currentUserContext";
 
 import NotFound from "../NotFound/NotFound";
-import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser} from "../../utils/MainApi";
+import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser, getMovies} from "../../utils/MainApi";
 import {getSavedMovies} from "../../utils/MoviesApi";
-
+import {apiUrl} from "../../utils/constants";
 function App() {
 
   let navigate = useNavigate();
 
-  // ****************** Авторизация пользователей
-
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [allMovies, setAllMovies] = React.useState([])
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [ errorMessage, setErrorMessage ] = React.useState('');
+  const [ globalError, setGlobalError ] = React.useState(false);
+  const [ successMessage, setSuccessMessage ] = React.useState('');
 
   React.useEffect(() => {
     handleGetUser();
-
-    if (loggedIn) {
-      getSavedMovies()
-        .then((data) => setSavedMovies(data))
-    }
   }, []);
 
+  React.useEffect(() => {
+    if (loggedIn) {
+      checkLocalStorage();
+      handleGetSavedMovies();
+    }
+  }, [loggedIn])
+
+  const checkLocalStorage = () => {
+    const localAllMovies = localStorage.getItem('allMovies');
+    if (localAllMovies) {
+      setAllMovies(JSON.parse(localAllMovies));
+    } else handleGetAllMovies();
+  }
+
+
+  // ****************** Работа с пользователем
+
   const handleRegister = ({email, name, password}) => {
+    setIsLoading(true);
     signUp({email, name, password})
       .then(() => {
         handleLogin({email, password})
       })
-      .catch((err) => console.log(err))
+      .catch(() => setErrorMessage('Такой e-mail уже зарегистрирован'))
+      .finally(() => setIsLoading(false))
   }
 
   const handleLogin = ({email, password}) => {
+    setIsLoading(true);
     logIn({email, password})
       .then((data) => {
         if (data.jwt) {
@@ -53,7 +71,8 @@ function App() {
           navigate('/movies', {replace: true})
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setErrorMessage(err.message))
+      .finally(() => setIsLoading(false))
   }
 
   const handleGetUser = () => {
@@ -66,28 +85,86 @@ function App() {
             setCurrentUser(data);
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => handleErrors(err))
     } else setLoggedIn(false);
   }
 
   const handleUpdateUser = (name, email) => {
+    setIsLoading(true);
     updateUser(name, email)
       .then((data) => {
         if (data) {
           setCurrentUser(data);
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        setErrorMessage(err.message);
+        handleErrors(err);
+      })
+      .finally(() => setIsLoading(false))
   }
 
   const handleLogOut = () => {
     setLoggedIn(false);
+    clearData();
+  }
+
+  const clearData = () => {
     localStorage.removeItem('jwt');
-    setCurrentUser({})
+    localStorage.removeItem('lastSearch');
+    localStorage.removeItem('allMovies');
+    setErrorMessage('')
+    setSuccessMessage('');
+
+    console.log(localStorage.getItem('lastSearch'))
   }
 
 
   // ****************** Работа с фильмами
+
+const handleGetAllMovies = () => {
+    getMovies()
+      .then((data) => {
+        const movies = data.map((item) => {
+          const imageUrl = item.image && item.image.url;
+          const thumbnailUrl = item.thumbnail && item.image.formats.thumbnail.url;
+          return {
+            nameRU : item.nameRU || 'UNKNOWN',
+            nameEN : item.nameEN || 'UNKNOWN',
+            movieId : item.id || -1,
+            country : item.country || 'UNKNOWN',
+            director : item.director || 'UNKNOWN',
+            duration : item.duration || -1,
+            year : item.year || 'UNKNOWN',
+            description : item.description || 'UNKNOWN',
+            image: imageUrl ? apiUrl + imageUrl : 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png',
+            trailerLink: item.trailerLink ? item.trailerLink : 'https://youtu.be/404',
+            thumbnail: thumbnailUrl ? apiUrl + thumbnailUrl : 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png',
+          }
+        });
+        localStorage.setItem('allMovies', JSON.stringify(movies));
+        setAllMovies(movies)
+      })
+      .catch(() => {
+        setGlobalError(true);
+      })
+}
+
+const handleGetSavedMovies = () => {
+    setIsLoading(true);
+    getSavedMovies()
+      .then((movies) => {
+        localStorage.setItem('savedMovies', JSON.stringify(movies))
+        setSavedMovies(movies);
+      })
+      .catch((err) => {
+        setGlobalError(true);
+        handleErrors(err);
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+}
 
   const handleSaveMovie = (movie) => {
     saveMovie(movie)
@@ -95,14 +172,51 @@ function App() {
         setSavedMovies([movie, ...savedMovies]);
       })
       .catch((err) => {
-        console.log(err)
+        setGlobalError(err);
+        handleErrors(err);
       })
   }
 
   const handleRemoveMovie = (id) => {
     removeMovie(id)
-      .then(() => setSavedMovies(savedMovies.filter(item => item._id !== id)))
-      .catch((err) => console.log(err))
+      .then(() => {
+        const newSavedMovies = savedMovies.filter(item => item._id !== id);
+        setSavedMovies(newSavedMovies);
+      })
+      .catch((err) => {
+        setGlobalError(err);
+        handleErrors(err);
+      })
+
+  }
+
+  const handleSearch = (moviesList, searchInput) => {
+    return moviesList.filter((movie) => {
+      return movie.nameRU.toLowerCase().includes(searchInput);
+    });
+  }
+
+  const filterByDuration = (moviesList) => {
+    return moviesList.filter((movie) => {
+      return movie.duration <= 40;
+    });
+  }
+
+  // ****************** Работа с localStorage
+
+  const setIntoLocalStorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  const getFromLocalStorage = (key) => {
+    return JSON.parse(localStorage.getItem(key))
+  }
+
+  const handleErrors = (err) => {
+    if (err.status === 401) {
+      setLoggedIn(false);
+      clearData();
+    }
   }
 
   return (
@@ -121,10 +235,17 @@ function App() {
               exact
               path="/movies"
               element={<Movies
+                allMovies={allMovies}
                 isSavedMovieList={false}
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
+                onFilter={filterByDuration}
+                onSearch={handleSearch}
                 savedMovies={savedMovies}
+                setIntoLocalStorage={setIntoLocalStorage}
+                getFromLocalStorage={getFromLocalStorage}
+                globalError={globalError}
+                isLoading={isLoading}
               />}
             />
             <Route
@@ -132,9 +253,13 @@ function App() {
               path="saved"
               element={<SavedMovies
                 isSavedMovieList={true}
-                setSavedMovies={setSavedMovies}
+                handleGetSavedMovies={handleGetSavedMovies}
                 savedMovies={savedMovies}
                 handleRemoveMovie={handleRemoveMovie}
+                onFilter={filterByDuration}
+                onSearch={handleSearch}
+                globalError={globalError}
+                isLoading={isLoading}
               />}
             />
           </Route>
@@ -146,18 +271,33 @@ function App() {
                 name={currentUser.name}
                 email={currentUser.email}
                 handleUpdateUser={handleUpdateUser}
-                handleLogOut={handleLogOut}/>}/>
+                handleLogOut={handleLogOut}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                setSuccessMessage={setSuccessMessage}
+                isLoading={isLoading}
+              />}
+
+            />
           </Route>
 
           <Route
             exact
             path="signin"
-            element={<Login handleLogin={handleLogin}/>}
+            element={<Login
+              handleLogin={handleLogin}
+              errorMessage={errorMessage}
+              isLoading={isLoading}
+            />}
           />
           <Route
             exact
             path="signup"
-            element={<Register handleRegister={handleRegister}/>}
+            element={<Register
+              handleRegister={handleRegister}
+              errorMessage={errorMessage}
+              isLoading={isLoading}
+            />}
           />
           <Route
             exact

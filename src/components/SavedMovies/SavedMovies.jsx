@@ -7,8 +7,6 @@ import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import cl from './SavedMovies.module.css';
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
-
-import {getSavedMovies} from "../../utils/MoviesApi";
 import useWindowWidth from "../../utils/windowWidth";
 import {
   MOVIES_TO_FIRST_RENDER_12, MOVIES_TO_FIRST_RENDER_5,
@@ -16,72 +14,54 @@ import {
   MOVIES_TO_NEXT_RENDER_2,
   MOVIES_TO_NEXT_RENDER_3
 } from "../../utils/constants";
-import {useLocation} from "react-router";
 
-const SavedMovies = ({ isSavedMovieList, handleRemoveMovie, setSavedMovies, savedMovies }) => {
+const SavedMovies = ({
+                       isSavedMovieList,
+                       handleRemoveMovie,
+                       handleGetSavedMovies,
+                       savedMovies,
+                       onFilter,
+                       isLoading
+                     }) => {
 
   const {width} = useWindowWidth();
-  const { pathname } = useLocation();
-
-  const [inputValue, setSearchInput ] = React.useState('Введите ключевое слово');
-  const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [checked, setChecked] = React.useState(false);
-
-  //todo Сделать исправный чекбокс на короткометражки
 
   React.useEffect(() => {
     resize();
   }, [width]);
 
   React.useEffect(() => {
-    setIsLoading(true);
-    getSavedMovies()
-      .then((savedFilms) => {
-        localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
-        const films = JSON.parse(localStorage.savedMovieList);
-        setSavedMovies(films);
-      })
-      .then(() => setIsLoading(false))
+    handleGetSavedMovies();
   }, [])
 
-  const handleChange = (evt) => {
-    setSearchInput(evt.target.value)
+  React.useEffect(() => {
+    setFoundMovies(savedMovies)
+  }, [savedMovies])
+
+  const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
+  const [searchInput, setSearchInput] = React.useState('Введите ключевое слово');
+  const [foundMovies, setFoundMovies] = React.useState([]);
+  const [filteredMovies, setFilteredMovies] = React.useState([])
+  const [checked, setChecked] = React.useState(false);
+
+  React.useEffect(() => {
+    setFoundMovies(savedMovies)
+  }, [])
+
+  React.useEffect(() => {
+    filterHandler();
+  }, [checked, searchInput, handleRemoveMovie])
+
+  const filterHandler = () => {
+    setFilteredMovies(onFilter(foundMovies));
   }
 
-  const handleCheckBox = () => {
-    setChecked(!checked);
-
-    if (checked === false) {
-      const shortFilms = savedMovies.filter(movie => movie.duration <= 40);
-
-      setSavedMovies(() => {
-        localStorage.setItem('shortFilms', shortFilms)
-        return shortFilms;
-      })
-    } else if(checked === true) {
-      setSavedMovies(JSON.parse(localStorage.foundFilms))
-    }
-  }
-
-  const handleSearch = (evt) => {
-    evt.preventDefault();
-    if (pathname === '/movies/saved') {
-      getSavedMovies()
-        .then((savedFilms) => {
-          localStorage.setItem('savedMovieList', JSON.stringify(savedFilms));
-          const films = JSON.parse(localStorage.savedMovieList);
-          const filteredFilms = films.filter((item) =>
-            item.nameRU.toLowerCase().includes(inputValue)
-          );
-          setSavedMovies(filteredFilms);
-        })
-        .then(() => setIsLoading(false))
-    }
-  }
+  // const searchHandler = () => {
+  //   setFoundMovies(onSearch(savedMovies, searchInput));
+  // }
 
   const resize = () => {
-    if(width >= 768) {
+    if (width >= 768) {
       setInitMovies({current: MOVIES_TO_FIRST_RENDER_12, next: MOVIES_TO_NEXT_RENDER_3})
     } else if (width >= 425) {
       setInitMovies({current: MOVIES_TO_FIRST_RENDER_8, next: MOVIES_TO_NEXT_RENDER_2})
@@ -92,24 +72,22 @@ const SavedMovies = ({ isSavedMovieList, handleRemoveMovie, setSavedMovies, save
     <section className={cl.savedMovies}>
       <Navigation/>
       <SearchForm
-        onSubmit={handleSearch}
-        setInput={handleChange}
-        inputValue={inputValue}
+        setSearchInput={setSearchInput}
         checked={checked}
-        setChecked={handleCheckBox}
+        setChecked={setChecked}
       />
       {isLoading
         ?
-        <Preloader />
+        <Preloader/>
         :
         <MoviesCardList
-          allCards={savedMovies}
+          allCards={checked ? filteredMovies : foundMovies}
           renderLimit={initMovies.current}
           isSavedMovieList={isSavedMovieList}
           handleRemoveMovie={handleRemoveMovie}
         />
       }
-      <Footer />
+      <Footer/>
     </section>
   );
 };

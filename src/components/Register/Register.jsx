@@ -1,15 +1,12 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {useNavigate} from "react-router";
 import {useFormWithValidation} from "../../utils/ReactValidation";
 
 import image from '../../images/logo.svg';
 
 import cl from './Register.module.css';
 
-const Register = ({handleRegister}) => {
-
-  let navigate = useNavigate();
+const Register = ({handleRegister, errorMessage}) => {
 
   const formWithValidation = useFormWithValidation();
   const {name, email, password} = formWithValidation.values;
@@ -19,7 +16,6 @@ const Register = ({handleRegister}) => {
     evt.preventDefault();
     handleRegister({name, email, password})
     formWithValidation.resetForm();
-    navigate('/movies', {replace: true});
   }
 
   return (
@@ -71,6 +67,7 @@ const Register = ({handleRegister}) => {
           <button type='submit' disabled={!isValid}
                   className={`${!isValid && cl.register__button_disabled} ${cl.register__button}`}>Зарегистрироваться
           </button>
+          <p className={cl.register__regError}>{errorMessage}</p>
 
         </form>
 

@@ -5,9 +5,6 @@ import SearchForm from "./SearchForm/SearchForm";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import useWindowWidth from "../../utils/windowWidth";
 
-import {getMovies} from "../../utils/MainApi";
-
-
 import cl from './Movies.module.css';
 import Footer from "../Footer/Footer";
 
@@ -20,30 +17,40 @@ import {
 } from '../../utils/constants';
 
 import Preloader from "../Preloader/Preloader";
-import {useLocation} from "react-router";
-
-const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovies}) => {
+const Movies = ({
+                  isSavedMovieList,
+                  handleSaveMovie,
+                  handleRemoveMovie,
+                  savedMovies,
+                  onFilter,
+                  getFromLocalStorage,
+                  setIntoLocalStorage,
+                  onSearch,
+                  isLoading,
+                  allMovies
+                }) => {
   const {width} = useWindowWidth();
-  const {pathname} = useLocation();
 
   const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
-  const [inputValue, setSearchInput] = React.useState('Введите ключевое слово');
-  const [allCards, setAllCards] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [filteredMovies, setFilteredMovies] = React.useState([]);
+  const [foundMovies, setFoundMovies] = React.useState([])
+  const [searchInput, setSearchInput] = React.useState('Введите ключевое слово');
   const [checked, setChecked] = React.useState(false);
+  const [searchCompleted, setSearchCompleted] = React.useState(false);
 
   React.useEffect(() => {
     resize();
   }, [width]);
 
+
   React.useEffect(() => {
-    if (localStorage.getItem('lastSearch')) {
-      setAllCards(() => {
-        const films = JSON.parse(localStorage.getItem('foundFilms'))
-        return films;
-      })
-    }
+    checkLastSearch()
   }, [])
+
+  React.useEffect(() => {
+    searchHandler();
+    filterHandler();
+  }, [checked, searchInput, searchCompleted])
 
   const resize = () => {
     if (width >= 768) {
@@ -53,63 +60,38 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovi
     } else setInitMovies({current: MOVIES_TO_FIRST_RENDER_5, next: MOVIES_TO_NEXT_RENDER_2})
   }
 
-  const handleChange = (evt) => {
-    setSearchInput(evt.target.value)
+  const checkLastSearch = () => {
+    const lastSearch = localStorage.getItem('lastSearch');
+    if (lastSearch) {
+      setSearchInput(getFromLocalStorage('lastSearch'));
+      setSearchCompleted(true);
+    } else setSearchCompleted(false);
   }
 
-  const handleCheckBox = () => {
-    setChecked(!checked);
-
-    if (checked === false) {
-      const shortFilms = allCards.filter(movie => movie.duration <= 40);
-
-      setAllCards(() => {
-        localStorage.setItem('shortFilms', shortFilms)
-        return shortFilms;
-      })
-    } else if(checked === true) {
-      setAllCards(JSON.parse(localStorage.foundFilms))
+  const searchHandler = () => {
+    if (searchInput.length > 0) {
+      setFoundMovies(onSearch(allMovies, searchInput));
+      setIntoLocalStorage('lastSearch', searchInput);
+      setSearchCompleted(true);
     }
   }
 
-  const filterFilms = (allCards) => {
-    const films = allCards.filter((movie) =>
-      movie.nameRU.toLowerCase().includes(inputValue)
-    );
-    setAllCards(() => {
-      localStorage.setItem('foundFilms', JSON.stringify(films));
-      return films;
-    })
-  }
-
-  const handleSearch = (evt) => {
-    evt.preventDefault();
-    if (pathname === '/movies') {
-      localStorage.setItem('lastSearch', inputValue);
-      setIsLoading(true);
-      getMovies()
-        .then((list) => {
-          localStorage.setItem('moviesList', JSON.stringify(list));
-          filterFilms(JSON.parse(localStorage.moviesList))
-        })
-        .then(() => setIsLoading(false))
-    }
+  const filterHandler = () => {
+    setFilteredMovies(onFilter(foundMovies))
   }
 
   const moreButtonHandler = () => {
     setInitMovies({current: initMovies.current + initMovies.next, next: initMovies.next})
   }
 
-
   return (
     <section className={cl.movies}>
       <Navigation/>
       <SearchForm
-        onSubmit={handleSearch}
-        setInput={handleChange}
-        inputValue={inputValue}
-        setChecked={handleCheckBox}
+        setSearchInput={setSearchInput}
+        setChecked={setChecked}
         checked={checked}
+        isLoading={isLoading}
       />
 
       {isLoading
@@ -117,7 +99,7 @@ const Movies = ({isSavedMovieList, handleSaveMovie, handleRemoveMovie, savedMovi
         <Preloader/>
         :
         <MoviesCardList
-          allCards={allCards}
+          allCards={checked ? filteredMovies : foundMovies}
           savedMovies={savedMovies}
           renderLimit={initMovies.current}
           isSavedMovieList={isSavedMovieList}

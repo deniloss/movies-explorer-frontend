@@ -19,42 +19,46 @@ const MoviesCardList = ({
 
   return (
     <section className={cl.CardList}>
-      <ul className={cl.CardList__container}>
-        {allCards.map((item, index, array) => {
 
+      {allCards.length < 1 ?
+        <p className={cl.CardList__notFound}>Ничего не найдено</p>
+        :
+        ''}
+      <ul className={cl.CardList__container}>
+
+        {allCards.map((item, index, array) => {
           if (isSavedMovieList) {
             var savedThumb = item.thumbnail;
             var savedId = item._id;
             var image = item.image;
           } else {
-            var thumb = item.image.formats.thumbnail.url;
+            var thumb = item.thumbnail;
           }
 
           const limit = isSavedMovieList ? array.length : renderLimit
           return (
             index < limit &&
             <MoviesCard
-              key={item.id || savedId}
+              key={item._id || item.movieId}
               savedMovies={savedMovies}
               nameRU={item.nameRU}
               nameEN={item.nameEN}
-              image={item.image.url || image}
-              trailer={item.trailerLink}
+              image={item.image || image}
               duration={item.duration}
-              movieId={item.id || savedId}
+              movieId={savedId || item.movieId}
               country={item.country}
               director={item.director}
               description={item.description}
               year={item.year}
-              trailerLink={item.trailerLink}
-              thumbnail={thumb || savedThumb}
+              trailerLink={item.trailerLink || item.trailer}
+              thumbnail={ thumb || savedThumb}
               isSavedMovieList={isSavedMovieList}
               handleSaveMovie={handleSaveMovie}
               handleRemoveMovie={handleRemoveMovie}
             />)
         })}
       </ul>
-      {pathname !== '/saved-movies' & renderLimit <= allCards.length
+      {pathname !== '/saved-movies' & renderLimit < allCards.length
         ? (
           <button type='button' onClick={moreButtonHandler} className={cl.CardList__more}>Ещё</button>
         )

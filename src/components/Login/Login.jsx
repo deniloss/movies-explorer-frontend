@@ -1,24 +1,24 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {useNavigate} from "react-router";
 import {useFormWithValidation} from "../../utils/ReactValidation";
 
 import cl from './Login.module.css'
 import image from "../../images/logo.svg";
 
-const Login = ({handleLogin}) => {
-
-  let navigate = useNavigate();
+const Login = ({handleLogin, errorMessage, isLoading}) => {
 
   const formWithValidation = useFormWithValidation();
   const {email, password} = formWithValidation.values;
-  const {values, handleChange, errors, onFocus, isValid} = formWithValidation;
+  const {values, handleChange, errors, onFocus, isValid, resetForm} = formWithValidation;
+
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm])
 
  const handleSubmit = (evt) => {
    evt.preventDefault();
    handleLogin({email, password});
    formWithValidation.resetForm();
-   navigate('/movies', {replace: true});
  }
 
   return (
@@ -26,7 +26,11 @@ const Login = ({handleLogin}) => {
       <div className={cl.login__wrapper}>
         <Link to='/' className={cl.login__image}><img src={image} alt="logo"/></Link>
         <h1 className={cl.login__title}>Добро пожаловать</h1>
-        <form noValidate onSubmit={handleSubmit} className={cl.login__form} action="">
+        <form
+          noValidate
+          onSubmit={handleSubmit}
+          className={cl.login__form} action=""
+        >
 
           <label className={cl.login__label}>
             <span className={cl.login__inputName}>E-mail</span>
@@ -38,8 +42,11 @@ const Login = ({handleLogin}) => {
               value={values.email || ''}
               type="text"
               name='email'
+              disabled={isLoading}
+              required
             />
-            <span className={cl.login__error}>{errors.email}</span>
+
+            <span className={`${cl.login__error} ${errors.email && cl.login__error_visible}`}>&nbsp;{errors.email}</span>
           </label>
 
           <label className={cl.login__label}>
@@ -52,11 +59,14 @@ const Login = ({handleLogin}) => {
               value={values.password || ''}
               type="password"
               name='password'
+              disabled={isLoading}
+              required
             />
-            <span className={cl.login__error}>{errors.password}</span>
+            <span className={`${cl.login__error} ${errors.password && cl.login__error_visible}`}>&nbsp;{errors.password}</span>
           </label>
 
           <button type='submit' disabled={!isValid} className={`${!isValid && cl.login__button_disabled} ${cl.login__button}`}>Войти</button>
+          <p className={cl.login__logError}>{errorMessage}</p>
         </form>
 
 
