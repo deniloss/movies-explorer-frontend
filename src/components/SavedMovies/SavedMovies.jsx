@@ -26,23 +26,24 @@ const SavedMovies = ({
 
   const {width} = useWindowWidth();
 
+  const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
+  const [searchInput, setSearchInput] = React.useState('');
+  const [foundMovies, setFoundMovies] = React.useState([]);
+  const [filteredMovies, setFilteredMovies] = React.useState([])
+  const [checked, setChecked] = React.useState(false);
+
   React.useEffect(() => {
     resize();
   }, [width]);
 
   React.useEffect(() => {
     handleGetSavedMovies();
+    setChecked(JSON.parse(localStorage.getItem('checked')));
   }, [])
 
   React.useEffect(() => {
     setFoundMovies(savedMovies)
   }, [savedMovies])
-
-  const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
-  const [searchInput, setSearchInput] = React.useState('Введите ключевое слово');
-  const [foundMovies, setFoundMovies] = React.useState([]);
-  const [filteredMovies, setFilteredMovies] = React.useState([])
-  const [checked, setChecked] = React.useState(false);
 
   React.useEffect(() => {
     setFoundMovies(savedMovies)
@@ -50,6 +51,7 @@ const SavedMovies = ({
 
   React.useEffect(() => {
     filterHandler();
+    localStorage.setItem('checked', JSON.stringify(checked));
   }, [checked, searchInput, handleRemoveMovie])
 
   const filterHandler = () => {
@@ -72,6 +74,7 @@ const SavedMovies = ({
     <section className={cl.savedMovies}>
       <Navigation/>
       <SearchForm
+        searchInput={searchInput}
         setSearchInput={setSearchInput}
         checked={checked}
         setChecked={setChecked}

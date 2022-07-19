@@ -17,6 +17,7 @@ import {
 } from '../../utils/constants';
 
 import Preloader from "../Preloader/Preloader";
+
 const Movies = ({
                   isSavedMovieList,
                   handleSaveMovie,
@@ -34,23 +35,13 @@ const Movies = ({
   const [initMovies, setInitMovies] = React.useState({current: 9, next: 0});
   const [filteredMovies, setFilteredMovies] = React.useState([]);
   const [foundMovies, setFoundMovies] = React.useState([])
-  const [searchInput, setSearchInput] = React.useState('Введите ключевое слово');
+  const [searchInput, setSearchInput] = React.useState('');
   const [checked, setChecked] = React.useState(false);
   const [searchCompleted, setSearchCompleted] = React.useState(false);
 
   React.useEffect(() => {
     resize();
   }, [width]);
-
-
-  React.useEffect(() => {
-    checkLastSearch()
-  }, [])
-
-  React.useEffect(() => {
-    searchHandler();
-    filterHandler();
-  }, [checked, searchInput, searchCompleted])
 
   const resize = () => {
     if (width >= 768) {
@@ -60,17 +51,31 @@ const Movies = ({
     } else setInitMovies({current: MOVIES_TO_FIRST_RENDER_5, next: MOVIES_TO_NEXT_RENDER_2})
   }
 
+  React.useEffect(() => {
+    checkLastSearch();
+    setChecked(JSON.parse(localStorage.getItem('checked')));
+  }, [])
+
+  React.useEffect(() => {
+    localStorage.setItem('checked', JSON.stringify(checked));
+    searchHandler();
+    filterHandler();
+  }, [checked, searchInput, searchCompleted])
+
   const checkLastSearch = () => {
     const lastSearch = localStorage.getItem('lastSearch');
+    const lastChecked = localStorage.getItem('checked')
     if (lastSearch) {
       setSearchInput(getFromLocalStorage('lastSearch'));
+      setChecked(JSON.parse(lastChecked));
       setSearchCompleted(true);
     } else setSearchCompleted(false);
   }
 
   const searchHandler = () => {
     if (searchInput.length > 0) {
-      setFoundMovies(onSearch(allMovies, searchInput));
+      const localMovies = onSearch(allMovies, searchInput);
+      setFoundMovies(localMovies);
       setIntoLocalStorage('lastSearch', searchInput);
       setSearchCompleted(true);
     }
@@ -88,6 +93,7 @@ const Movies = ({
     <section className={cl.movies}>
       <Navigation/>
       <SearchForm
+        searchInput={searchInput}
         setSearchInput={setSearchInput}
         setChecked={setChecked}
         checked={checked}

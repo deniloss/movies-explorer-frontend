@@ -113,10 +113,10 @@ function App() {
     localStorage.removeItem('jwt');
     localStorage.removeItem('lastSearch');
     localStorage.removeItem('allMovies');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('checked')
     setErrorMessage('')
     setSuccessMessage('');
-
-    console.log(localStorage.getItem('lastSearch'))
   }
 
 

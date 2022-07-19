@@ -4,11 +4,10 @@ import Switch from "react-switch";
 
 import {useFormWithValidation} from "../../../utils/ReactValidation";
 
-const SearchForm = ({setSearchInput, setChecked, checked, isLoading}) => {
+const SearchForm = ({searchInput, setSearchInput, setChecked, checked, isLoading}) => {
 
   const formWithValidation = useFormWithValidation();
   const {search} = formWithValidation.values;
-  const {values, handleChange} = formWithValidation;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -24,8 +23,8 @@ const SearchForm = ({setSearchInput, setChecked, checked, isLoading}) => {
           required
           type="text"
           name='search'
-          value={values.search || ''}
-          onChange={handleChange}
+          value={searchInput}
+          onChange={(event => setSearchInput(event.target.value))}
           disabled={isLoading}
           placeholder='Введите ключевое слово'
         />
