@@ -7,7 +7,6 @@ import image from '../../images/logo.svg';
 import cl from './Register.module.css';
 
 const Register = ({handleRegister, errorMessage}) => {
-
   const formWithValidation = useFormWithValidation();
   const {name, email, password} = formWithValidation.values;
   const {values, handleChange, errors, isValid} = formWithValidation;

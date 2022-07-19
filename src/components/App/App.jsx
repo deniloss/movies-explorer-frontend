@@ -281,26 +281,33 @@ const handleGetSavedMovies = () => {
             />
           </Route>
 
-          <Route
-            exact
-            path="signin"
-            element={<Login
-              handleLogin={handleLogin}
-              errorMessage={errorMessage}
-              isLoading={isLoading}
-              loggedIn={loggedIn}
-            />}
-          />
-          <Route
-            exact
-            path="signup"
-            element={<Register
-              handleRegister={handleRegister}
-              errorMessage={errorMessage}
-              isLoading={isLoading}
-              currentUser={currentUser}
-            />}
-          />
+          <Route path='/signin' element={<ProtectedRoutes loggedIn={!loggedIn} />}>
+            <Route
+              exact
+              path=''
+              element={<Login
+                handleLogin={handleLogin}
+                errorMessage={errorMessage}
+                isLoading={isLoading}
+                loggedIn={loggedIn}
+              />}
+            />
+          </Route>
+
+
+          <Route path='/signup' element={<ProtectedRoutes loggedIn={!loggedIn} />}>
+            <Route
+              exact
+              path=''
+              element={<Register
+                handleRegister={handleRegister}
+                errorMessage={errorMessage}
+                isLoading={isLoading}
+                currentUser={currentUser}
+              />}
+            />
+          </Route>
+
           <Route
             exact
             path="*"
