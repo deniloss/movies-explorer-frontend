@@ -59,8 +59,11 @@ const Movies = ({
   React.useEffect(() => {
     localStorage.setItem('checked', JSON.stringify(checked));
     searchHandler();
+  }, [checked, searchInput, searchCompleted]);
+
+  React.useEffect(() => {
     filterHandler();
-  }, [checked, searchInput, searchCompleted])
+  }, [foundMovies])
 
   const checkLastSearch = () => {
     const lastSearch = localStorage.getItem('lastSearch');

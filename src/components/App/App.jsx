@@ -288,6 +288,7 @@ const handleGetSavedMovies = () => {
               handleLogin={handleLogin}
               errorMessage={errorMessage}
               isLoading={isLoading}
+              loggedIn={loggedIn}
             />}
           />
           <Route
@@ -297,6 +298,7 @@ const handleGetSavedMovies = () => {
               handleRegister={handleRegister}
               errorMessage={errorMessage}
               isLoading={isLoading}
+              currentUser={currentUser}
             />}
           />
           <Route
