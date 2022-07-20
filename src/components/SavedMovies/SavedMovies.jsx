@@ -20,6 +20,7 @@ const SavedMovies = ({
                        handleRemoveMovie,
                        handleGetSavedMovies,
                        savedMovies,
+                       onSearch,
                        onFilter,
                        isLoading
                      }) => {
@@ -52,15 +53,16 @@ const SavedMovies = ({
   React.useEffect(() => {
     filterHandler();
     localStorage.setItem('checked', JSON.stringify(checked));
+    searchHandler();
   }, [checked, searchInput, handleRemoveMovie])
 
   const filterHandler = () => {
     setFilteredMovies(onFilter(foundMovies));
   }
 
-  // const searchHandler = () => {
-  //   setFoundMovies(onSearch(savedMovies, searchInput));
-  // }
+  const searchHandler = () => {
+    setFoundMovies(onSearch(savedMovies, searchInput));
+  }
 
   const resize = () => {
     if (width >= 768) {
