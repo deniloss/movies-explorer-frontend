@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import {Routes, Route, useNavigate} from "react-router";
+import {Routes, Route, useNavigate, useLocation} from "react-router";
 
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -16,8 +16,11 @@ import NotFound from "../NotFound/NotFound";
 import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser, getMovies} from "../../utils/MainApi";
 import {getSavedMovies} from "../../utils/MoviesApi";
 import {apiUrl} from "../../utils/constants";
+
+
 function App() {
 
+  let location = useLocation().pathname
   let navigate = useNavigate();
 
   const [savedMovies, setSavedMovies] = React.useState([]);
@@ -46,7 +49,6 @@ function App() {
       setAllMovies(JSON.parse(localAllMovies));
     } else handleGetAllMovies();
   }
-
 
   // ****************** Работа с пользователем
 
@@ -83,6 +85,7 @@ function App() {
           if (data) {
             setLoggedIn(true);
             setCurrentUser(data);
+            navigate(location, {replace: true})
           }
         })
         .catch((err) => handleErrors(err))
@@ -274,6 +277,7 @@ const handleGetSavedMovies = () => {
                 handleLogOut={handleLogOut}
                 errorMessage={errorMessage}
                 setErrorMessage={setErrorMessage}
+                successMessage={successMessage}
                 setSuccessMessage={setSuccessMessage}
                 isLoading={isLoading}
               />}
