@@ -15,7 +15,7 @@ import {CurrentUserContext} from "../../context/currentUserContext";
 import NotFound from "../NotFound/NotFound";
 import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser, getMovies} from "../../utils/MainApi";
 import {getSavedMovies} from "../../utils/MoviesApi";
-import {apiUrl} from "../../utils/constants";
+import {apiUrl, durationOfShortMovie} from "../../utils/constants";
 
 
 function App() {
@@ -201,7 +201,7 @@ const handleGetSavedMovies = () => {
 
   const filterByDuration = (moviesList) => {
     return moviesList.filter((movie) => {
-      return movie.duration <= 40;
+      return movie.duration <= durationOfShortMovie;
     });
   }
 
