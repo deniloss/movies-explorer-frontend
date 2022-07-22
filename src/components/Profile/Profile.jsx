@@ -19,8 +19,6 @@ const Profile = ({
   const formWithValidation = useFormWithValidation();
   const {name, email} = formWithValidation.values;
   const {values, setValues, handleChange, errors, isValid} = formWithValidation;
-  const [isEdited, setIsEdited] = React.useState(false);
-
   const currentUser = React.useContext(CurrentUserContext);
 
   let isChanged = (currentUser.name !== values.name) || (currentUser.email !== values.email);
@@ -29,6 +27,8 @@ const Profile = ({
     setValues(currentUser);
     setSuccessMessage(false);
     setErrorMessage(false);
+
+    console.log(currentUser.name)
   }, [])
 
   const handleSubmit = (evt) => {
@@ -41,6 +41,8 @@ const Profile = ({
     setIsEdited(true);
     handleUpdateUser(name, email);
     setSuccessMessage(true);
+    currentUser.name = values.name;
+    currentUser.email = values.email;
   }
 
 
@@ -50,7 +52,7 @@ const Profile = ({
       <section className={cl.profile}>
         <h1 className={cl.profile__title}>Привет, {currentUser.name}!</h1>
 
-        <form noValidate onSubmit={handleSubmit} className={cl.profile__form} action="">
+        <form noValidate onSubmit={handleChangeProfile} className={cl.profile__form} action="">
           <div className={cl.profile__formItem}>
             <p className={cl.profile__titleInput}>Имя</p>
             <input
@@ -76,13 +78,14 @@ const Profile = ({
           </div>
           <span className={`${cl.profile__error} ${cl.profile__error_visible}`}>&nbsp;{errors.email}</span>
 
-          <p className={`${cl.profile__successMessage} ${!isChanged || !isValid && cl.profile__successMessage_visible}`}>Данные
+          <p
+            className={`${cl.profile__successMessage} ${successMessage && !errorMessage && cl.profile__successMessage_visible}`}>Данные
             успешно обновлены</p>
           <p className={cl.profile__Error}>{errorMessage}</p>
-          <button type='button' disabled={!isValid && !isChanged} onClick={handleChangeProfile}
+          <button type='submit' disabled={!isChanged} onClick={handleChangeProfile}
                   className={cl.profile__button}>Редактировать
           </button>
-          <button type='submit' className={cl.profile__button}> Выйти из аккаунта</button>
+          <button type='button' onClick={handleSubmit} className={cl.profile__button}> Выйти из аккаунта</button>
         </form>
       </section>
     </>
