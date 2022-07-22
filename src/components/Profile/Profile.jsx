@@ -27,9 +27,7 @@ const Profile = ({
     setValues(currentUser);
     setSuccessMessage(false);
     setErrorMessage(false);
-
-    console.log(currentUser.name)
-  }, [])
+    }, [])
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
