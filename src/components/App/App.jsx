@@ -28,9 +28,9 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [ errorMessage, setErrorMessage ] = React.useState('');
-  const [ globalError, setGlobalError ] = React.useState(false);
-  const [ successMessage, setSuccessMessage ] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [globalError, setGlobalError] = React.useState(false);
+  const [successMessage, setSuccessMessage] = React.useState('');
 
   React.useEffect(() => {
     handleGetUser();
@@ -67,10 +67,11 @@ function App() {
     logIn({email, password})
       .then((data) => {
         if (data.jwt) {
+          localStorage.setItem('checked', 'false')
           localStorage.setItem('jwt', data.jwt);
           setLoggedIn(true);
           handleGetUser();
-          navigate('/movies', {replace: true})
+          navigate('/movies', {replace: true});
         }
       })
       .catch((err) => setErrorMessage(err.message))
@@ -125,35 +126,35 @@ function App() {
 
   // ****************** Работа с фильмами
 
-const handleGetAllMovies = () => {
+  const handleGetAllMovies = () => {
     getMovies()
       .then((data) => {
         const movies = data.map((item) => {
           const imageUrl = item.image && item.image.url;
           const thumbnailUrl = item.thumbnail && item.image.formats.thumbnail.url;
           return {
-            nameRU : item.nameRU || 'UNKNOWN',
-            nameEN : item.nameEN || 'UNKNOWN',
-            movieId : item.id || -1,
-            country : item.country || 'UNKNOWN',
-            director : item.director || 'UNKNOWN',
-            duration : item.duration || -1,
-            year : item.year || 'UNKNOWN',
-            description : item.description || 'UNKNOWN',
+            nameRU: item.nameRU || 'UNKNOWN',
+            nameEN: item.nameEN || 'UNKNOWN',
+            movieId: item.id || -1,
+            country: item.country || 'UNKNOWN',
+            director: item.director || 'UNKNOWN',
+            duration: item.duration || -1,
+            year: item.year || 'UNKNOWN',
+            description: item.description || 'UNKNOWN',
             image: imageUrl ? apiUrl + imageUrl : 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png',
             trailerLink: item.trailerLink ? item.trailerLink : 'https://youtu.be/404',
             thumbnail: thumbnailUrl ? apiUrl + thumbnailUrl : 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png',
           }
         });
         localStorage.setItem('allMovies', JSON.stringify(movies));
-        setAllMovies(movies)
+        setAllMovies(movies);
       })
       .catch(() => {
         setGlobalError(true);
       })
-}
+  }
 
-const handleGetSavedMovies = () => {
+  const handleGetSavedMovies = () => {
     setIsLoading(true);
     getSavedMovies()
       .then((movies) => {
@@ -167,7 +168,7 @@ const handleGetSavedMovies = () => {
       .finally(() => {
         setIsLoading(false)
       })
-}
+  }
 
   const handleSaveMovie = (movie) => {
     saveMovie(movie)
@@ -285,7 +286,7 @@ const handleGetSavedMovies = () => {
             />
           </Route>
 
-          <Route path='/signin' element={<ProtectedRoutes loggedIn={!loggedIn} />}>
+          <Route path='/signin' element={<ProtectedRoutes loggedIn={!loggedIn}/>}>
             <Route
               exact
               path=''
@@ -299,7 +300,7 @@ const handleGetSavedMovies = () => {
           </Route>
 
 
-          <Route path='/signup' element={<ProtectedRoutes loggedIn={!loggedIn} />}>
+          <Route path='/signup' element={<ProtectedRoutes loggedIn={!loggedIn}/>}>
             <Route
               exact
               path=''
