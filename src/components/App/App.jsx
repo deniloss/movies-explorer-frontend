@@ -17,7 +17,6 @@ import {saveMovie, removeMovie, signUp, logIn, getUser, updateUser, getMovies} f
 import {getSavedMovies} from "../../utils/MoviesApi";
 import {apiUrl, durationOfShortMovie} from "../../utils/constants";
 
-
 function App() {
 
   let location = useLocation().pathname
@@ -70,12 +69,21 @@ function App() {
           localStorage.setItem('checked', 'false')
           localStorage.setItem('jwt', data.jwt);
           setLoggedIn(true);
-          handleGetUser();
-          navigate('/movies', {replace: true});
+          getUser()
+            .then((data) => {
+              if (data) {
+                setLoggedIn(true);
+                setCurrentUser(data);
+                navigate('/movies', {replace: true})
+              }
+            })
+            .catch((err) => handleErrors(err))
         }
       })
       .catch((err) => setErrorMessage(err.message))
-      .finally(() => setIsLoading(false))
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   const handleGetUser = () => {
