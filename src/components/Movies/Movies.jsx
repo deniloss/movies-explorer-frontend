@@ -72,14 +72,18 @@ const Movies = ({
       setSearchInput(getFromLocalStorage('lastSearch'));
       setChecked(JSON.parse(lastChecked));
       setSearchCompleted(true);
-    } else setSearchCompleted(false);
+    } else {
+      setSearchCompleted(false)
+    }
   }
 
   const searchHandler = () => {
-    const localMovies = onSearch(allMovies, searchInput);
-    setFoundMovies(localMovies);
-    setIntoLocalStorage('lastSearch', searchInput);
-    setSearchCompleted(true);
+    if (searchInput.length > 0) {
+      const localMovies = onSearch(allMovies, searchInput);
+      setFoundMovies(localMovies);
+      setIntoLocalStorage('lastSearch', searchInput);
+      setSearchCompleted(true);
+    }
   }
 
   const filterHandler = () => {
@@ -114,6 +118,7 @@ const Movies = ({
           handleSaveMovie={handleSaveMovie}
           handleRemoveMovie={handleRemoveMovie}
           moreButtonHandler={moreButtonHandler}
+          searchCompleted={searchCompleted}
         />
       }
       <Footer/>

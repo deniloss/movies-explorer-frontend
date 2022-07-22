@@ -12,7 +12,8 @@ const MoviesCardList = ({
                           isSavedMovieList,
                           handleSaveMovie,
                           handleRemoveMovie,
-                          moreButtonHandler
+                          moreButtonHandler,
+                          searchCompleted
                         }) => {
 
   const {pathname} = useLocation();
@@ -20,7 +21,7 @@ const MoviesCardList = ({
   return (
     <section className={cl.CardList}>
 
-      {allCards.length < 1 ?
+      {searchCompleted && allCards.length < 1 ?
         <p className={cl.CardList__notFound}>Ничего не найдено</p>
         :
         ''}
@@ -51,7 +52,7 @@ const MoviesCardList = ({
               description={item.description}
               year={item.year}
               trailerLink={item.trailerLink || item.trailer}
-              thumbnail={ thumb || savedThumb}
+              thumbnail={thumb || savedThumb}
               isSavedMovieList={isSavedMovieList}
               handleSaveMovie={handleSaveMovie}
               handleRemoveMovie={handleRemoveMovie}
