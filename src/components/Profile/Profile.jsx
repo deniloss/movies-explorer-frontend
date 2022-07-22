@@ -38,6 +38,7 @@ const Profile = ({
   const handleChangeProfile = () => {
     handleUpdateUser(name, email);
     setSuccessMessage(true);
+    setErrorMessage(false)
     currentUser.name = values.name;
     currentUser.email = values.email;
   }
