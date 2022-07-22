@@ -76,12 +76,11 @@ const Movies = ({
   }
 
   const searchHandler = () => {
-    if (searchInput.length > 0) {
-      const localMovies = onSearch(allMovies, searchInput);
-      setFoundMovies(localMovies);
-      setIntoLocalStorage('lastSearch', searchInput);
-      setSearchCompleted(true);
-    }
+    console.log(searchInput.length)
+    const localMovies = onSearch(allMovies, searchInput);
+    setFoundMovies(localMovies);
+    setIntoLocalStorage('lastSearch', searchInput);
+    setSearchCompleted(true);
   }
 
   const filterHandler = () => {
@@ -100,6 +99,7 @@ const Movies = ({
         setSearchInput={setSearchInput}
         setChecked={setChecked}
         checked={checked}
+        onSearch={searchHandler}
         isLoading={isLoading}
       />
 

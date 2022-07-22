@@ -2,16 +2,11 @@ import React from 'react';
 import cl from './SearchForm.module.css';
 import Switch from "react-switch";
 
-import {useFormWithValidation} from "../../../utils/ReactValidation";
-
-const SearchForm = ({searchInput, setSearchInput, setChecked, checked, isLoading}) => {
-
-  const formWithValidation = useFormWithValidation();
-  const {search} = formWithValidation.values;
+const SearchForm = ({searchInput, setSearchInput, setChecked, checked, isLoading, onSearch}) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    setSearchInput(search)
+    onSearch();
   }
 
   return (
