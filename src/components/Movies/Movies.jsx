@@ -76,7 +76,6 @@ const Movies = ({
   }
 
   const searchHandler = () => {
-    console.log(searchInput.length)
     const localMovies = onSearch(allMovies, searchInput);
     setFoundMovies(localMovies);
     setIntoLocalStorage('lastSearch', searchInput);
