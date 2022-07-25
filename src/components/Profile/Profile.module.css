@@ -34,7 +34,7 @@
 .profile__formItem:last-of-type {
     padding-top: 17px;
 
-    margin: 16px 0 220px 0;
+    margin: 16px 0 0 0;
 
     border-top: 1px solid #E8E8E8;
 }
@@ -55,6 +55,24 @@
     color: black;
 
     border: none;
+    outline: none;
+}
+
+.profile__error {
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    visibility: hidden;
+
+    color: red;
+}
+.profile__error:last-of-type {
+    margin-bottom: 220px;
+}
+
+.profile__error_visible {
+    visibility: visible;
 }
 
 .profile__button {
@@ -66,12 +84,34 @@
 
     background-color: transparent;
     border: none;
+    cursor: pointer;
 
 }
 
 .profile__button:last-of-type {
     color: red;
     margin: 16px 0 70px 0;
+}
+
+.profile__successMessage {
+    visibility: hidden;
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+
+    color: #25d530;
+}
+.profile__successMessage_visible {
+    visibility: visible;
+}
+
+.profile__Error {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    color: red;
 }
 
 

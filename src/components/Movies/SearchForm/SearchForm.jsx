@@ -1,19 +1,29 @@
 import React from 'react';
-
-
 import cl from './SearchForm.module.css';
 import Switch from "react-switch";
 
-const SearchForm = () => {
+const SearchForm = ({searchInput, setSearchInput, setChecked, checked, isLoading, onSearch}) => {
 
-  const [checked, setChecked] = React.useState(true)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onSearch();
+  }
 
   return (
     <div className={cl.searchForm}>
 
-      <form className={cl.searchForm__form} action="">
-        <input className={cl.searchForm__input} required={true} type="text" placeholder='Фильм'/>
-        <button className={cl.searchForm__formButton}>Найти</button>
+      <form noValidate className={cl.searchForm__form} onSubmit={handleSubmit}>
+        <input
+          className={cl.searchForm__input}
+          required
+          type="text"
+          name='search'
+          value={searchInput}
+          onChange={(event => setSearchInput(event.target.value))}
+          disabled={isLoading}
+          placeholder='Введите ключевое слово'
+        />
+        <button type="submit" className={cl.searchForm__formButton}>Найти</button>
       </form>
 
       <div className={cl.searchForm__shortFilms}>
